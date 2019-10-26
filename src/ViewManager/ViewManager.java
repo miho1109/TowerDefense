@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class ViewManager {
 
-    private static final int HEIGHT = 1280;
+    private static final int HEIGHT = 1496;
     private static final int WIDTH = 720;
     private AnchorPane mainPane;
     private Scene mainScene;
@@ -27,7 +27,7 @@ public class ViewManager {
     }
 
     private void creatBackGround(){
-        Image backgroundImage = new Image("ViewManager/resources/background.png", 1280,720, true, true);
+        Image backgroundImage = new Image("ViewManager/resources/background.png", 1496,720, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(background));
     }
