@@ -1,6 +1,6 @@
-package sample;
+package GameStage;
 
-import ViewManager.ViewManager;
+import GameField.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
