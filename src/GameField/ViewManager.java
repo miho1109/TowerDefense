@@ -1,10 +1,14 @@
 package GameField;
 
 import GameField.Entities.Enemy.NormalTroop;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ViewManager extends VBox{
 
@@ -21,14 +25,14 @@ public class ViewManager extends VBox{
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
         creatBackGround();
-        NormalTroop troop1 = new NormalTroop(1.0,2.0,3.0,4.0,5.0,6.0,7.0);
-        print();
+        GameControl.spawnTroop();
+        printMousePosition();
     }
 
-    void print() {
+    void printMousePosition() {
         mainPane.setOnMouseMoved(event -> {
-            System.out.println(event.getSceneX());
-            System.out.println(event.getSceneY());
+            System.out.println("MouseX: " + event.getSceneX());
+            System.out.println("MouseY: " + event.getSceneY());
         });
     }
 
@@ -37,7 +41,7 @@ public class ViewManager extends VBox{
     }
 
     private void creatBackGround(){
-        Image backgroundImage = new Image("GameField/resources/background.png", 1496,720, true, true);
+        Image backgroundImage = new Image("GameField/resources/background1.png", 1496,720, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(background));
     }
