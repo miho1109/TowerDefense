@@ -10,8 +10,6 @@ import javafx.util.Duration;
 
 public class Enemy implements GameEntity{
 
-
-
     public Enemy() {}
 
     public void getTroopType(enemyType type){

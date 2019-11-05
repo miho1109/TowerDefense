@@ -26,7 +26,7 @@ public class ViewManager extends VBox{
         mainStage.setScene(mainScene);
         creatBackGround();
         GameControl.spawnTroop();
-        printMousePosition();
+        //printMousePosition();
     }
 
     void printMousePosition() {

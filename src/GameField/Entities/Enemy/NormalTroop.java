@@ -26,6 +26,6 @@ public class NormalTroop extends Enemy{
         Enemy.setPath(normalTroop,speed);
         ViewManager.mainPane.getChildren().add(normalTroop);
     }
-    
+
 }
 
