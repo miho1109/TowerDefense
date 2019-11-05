@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 public interface GameEntity {
 
     enum objectType{
-        towel, enemy,
+        tower, enemy,
     }
 
     public enum enemyType{
@@ -13,6 +13,10 @@ public interface GameEntity {
         EliteTroop,
         Tanker,
         Boss,
+    }
+
+    public enum towerType{
+        greenTower,
     }
 
     double getPosX(objectType type);

@@ -1,6 +1,7 @@
 package GameField;
 
 import GameField.Entities.Enemy.NormalTroop;
+import GameField.Entities.GameEntity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -27,14 +28,9 @@ public class ViewManager extends VBox{
         creatBackGround();
         GameControl.spawnTroop();
         //printMousePosition();
+        GameControl.mouseClicked();
     }
 
-    void printMousePosition() {
-        mainPane.setOnMouseMoved(event -> {
-            System.out.println("MouseX: " + event.getSceneX());
-            System.out.println("MouseY: " + event.getSceneY());
-        });
-    }
 
     public Stage getMainStage(){
         return mainStage;
