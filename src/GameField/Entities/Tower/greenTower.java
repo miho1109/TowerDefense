@@ -15,19 +15,17 @@ public class greenTower extends Tower {
     public Image image = new Image("GameField/Entities/Tower/Resources/greenTower.png");
     public ImageView greenTower = new ImageView(image);
 
-    public greenTower() {
-        super();
-        greenTower.setPreserveRatio(true);
+    private void dragTower() {
         mainPane.setOnMouseDragged(event -> {
             greenTower.setX(event.getSceneX()-60);
             greenTower.setY(event.getSceneY()-70);
-            ViewManager.mainPane.getChildren().add(greenTower);
-
         });
-        /**
-        greenTower.setX(250);
-        greenTower.setY(250);
+    }
+
+    public greenTower() {
+        super();
+        dragTower();
+        //greenTower.setPreserveRatio(true);
         ViewManager.mainPane.getChildren().add(greenTower);
-         */
     }
 }

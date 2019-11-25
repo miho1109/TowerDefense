@@ -1,15 +1,10 @@
 package GameField;
 
-import GameField.Entities.Enemy.NormalTroop;
 import GameField.Entities.GameEntity;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class ViewManager extends VBox{
 
@@ -25,12 +20,13 @@ public class ViewManager extends VBox{
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
         creatBackGround();
         GameControl.spawnTroop();
-        //printMousePosition();
-        GameControl.mouseClicked();
+        //GameControl.printMousePosition();
+        GameControl.printTroopX();
+        //GameControl.mouseClicked();
     }
-
 
     public Stage getMainStage(){
         return mainStage;

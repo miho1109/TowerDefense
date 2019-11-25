@@ -2,20 +2,18 @@ package GameField.Entities.Tower;
 
 import GameField.Entities.GameEntity;
 
-import static GameField.ViewManager.mainPane;
-
 public class Tower implements GameEntity {
 
     public Tower() {}
 
-    public void getTowerType(towerType type){
+    public void getTowerType(ObjectType type){
         switch (type){
             case greenTower:
                 new greenTower();
         }
     }
 
-    public double getPosX(towerType type){
+    public double getPosX(ObjectType type){
         switch (type){
             case greenTower:
                 new greenTower();
@@ -23,7 +21,7 @@ public class Tower implements GameEntity {
         return 0;
     }
 
-    public double getPosX(objectType type) {
+    public double getPosX() {
         return 0;
     }
 
@@ -37,13 +35,6 @@ public class Tower implements GameEntity {
 
     public double getHeight() {
         return 0;
-    }
-
-    void printMousePosition() {
-        mainPane.setOnMouseMoved(event -> {
-            System.out.println("MouseX: " + event.getSceneX());
-            System.out.println("MouseY: " + event.getSceneY());
-        });
     }
 
 }
