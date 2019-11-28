@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class ViewManager extends VBox{
 
-    private static final int HEIGHT = 1496;
+    private static final int HEIGHT = 1530;
     private static final int WIDTH = 720;
     public static AnchorPane mainPane;
     private Scene mainScene;
@@ -20,20 +20,23 @@ public class ViewManager extends VBox{
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
-        mainStage.setResizable(false);
-        creatBackGround();
+        createBackGround();
+        GameControl.drawGrid();
         GameControl.spawnTroop();
         //GameControl.printMousePosition();
+        //GameControl.spawnTower();
+        //GameControl.spawnTowerButton();
+        GameControl.mouseClicked();
         GameControl.printTroopX();
-        //GameControl.mouseClicked();
     }
+
 
     public Stage getMainStage(){
         return mainStage;
     }
 
-    private void creatBackGround(){
-        Image backgroundImage = new Image("GameField/resources/background1.png", 1496,720, true, true);
+    private void createBackGround(){
+        Image backgroundImage = new Image("GameField/resources/background3.png", HEIGHT, WIDTH, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(background));
     }
