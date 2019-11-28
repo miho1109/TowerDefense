@@ -1,13 +1,18 @@
 package GameField.Entities;
 
+import javafx.scene.image.ImageView;
+
 public interface GameEntity {
 
-    enum ObjectType{
+    public enum ObjectType{
         NormalTroop,
         EliteTroop,
         Tanker,
         Boss,
-        greenTower,
+        normalTower,
+        airTower,
+        lightTower,
+        heavyTower,
         bullet1,
     }
 
@@ -15,5 +20,4 @@ public interface GameEntity {
     double getPosY();
     double getWidth();
     double getHeight();
-
 }
