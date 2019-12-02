@@ -1,6 +1,7 @@
 package GameField;
 
 import GameField.Entities.Button.TowerButton;
+import GameField.Entities.Button.testingButton;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Bullet.Bullet;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
@@ -58,29 +59,29 @@ public class GameControl {
     public static void mouseClicked() {
         mainPane.setOnMouseClicked(event -> {
             if((int) event.getSceneY() / 90 == 7)
-            spawnTower();
+            spawnTowerButton();
         });
     }
-    /**
-    public static void createButton() {
-        Button button = new Button();
-        mainPane.button1.setOnAction(new EventHandler<ActionEvent>() ) {
-            @Override public void handle(ActionEvent e) {
 
-                                        }
-    }
-    }
-    */
     public static void spawnTower() {
-        Tower greenTower = new Tower(GameEntity.ObjectType.normalTower);
+        Tower normalTower = new Tower(GameEntity.ObjectType.normalTower);
     }
 
     public static void spawnTowerButton() {
-        //TowerButton TB = new TowerButton();
+        TowerButton normalTower = new TowerButton(new Tower(GameEntity.ObjectType.normalTower));
+        normalTower.setTranslateX(250);
+        normalTower.setTranslateY(250);
+        //TowerButton airTower = new TowerButton(new Tower(GameEntity.ObjectType.airTower));
+        //TowerButton lightTower = new TowerButton(new Tower(GameEntity.ObjectType.lightTower));
+        //TowerButton heavyTower = new TowerButton(new Tower(GameEntity.ObjectType.heavyTower));
     }
 
     public static void drawGrid() {
         Grid grid = new Grid();
+    }
+
+    public static void createTestButton() {
+        testingButton TB = new testingButton();
     }
 
 }
