@@ -1,6 +1,5 @@
 package GameField;
 
-import GameField.Entities.GameEntity;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -22,12 +21,12 @@ public class ViewManager extends VBox{
         mainStage.setScene(mainScene);
         createBackGround();
         GameControl.drawGrid();
-        GameControl.spawnTroop();
+        GameControl.gameStart();
         //GameControl.printMousePosition();
         //GameControl.spawnTower();
         //GameControl.spawnTowerButton();
         //GameControl.mouseClicked();
-        GameControl.printTroopX();
+        //GameControl.printTroopX();
         GameControl.createTestButton();
     }
 

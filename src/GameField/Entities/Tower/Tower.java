@@ -21,9 +21,9 @@ public class Tower implements GameEntity {
     private boolean dragAble = true;
 
     public Tower(ObjectType type) {
+        loadTowerImage(type);
         currentType = type;
         dragTower();
-        loadTowerImage(type);
         ViewManager.mainPane.getChildren().add(TowerImage);
     }
 
@@ -35,20 +35,27 @@ public class Tower implements GameEntity {
         switch (type) {
             case normalTower:
                 loadImage("GameField/Entities/Tower/Resources/normalTower.png");
+                TowerImage.setX(1300);
+                TowerImage.setY(0);
                 break;
-            /*
+
             case airTower:
                 loadImage("GameField/Entities/Tower/Resources/airTower.png");
+                TowerImage.setX(1400);
+                TowerImage.setY(0);
                 break;
 
             case lightTower:
                 loadImage("GameField/Entities/Tower/Resources/lightTower.png");
+                TowerImage.setX(1300);
+                TowerImage.setY(140);
                 break;
 
             case heavyTower:
                 loadImage("GameField/Entities/Tower/Resources/heavyTower.png");
+                TowerImage.setX(1400);
+                TowerImage.setY(140);
                 break;
-             */
         }
     }
 
@@ -69,15 +76,22 @@ public class Tower implements GameEntity {
     }
 
     private void dragTower() {
+//        TowerImage.setOnMouseClicked(event -> {
+//            if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
+//                TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
+//                TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
+//                dragAble = false;
+//            }
+//        });
 
-        mainPane.setOnMouseDragged(event -> {
+        TowerImage.setOnMouseDragged(event -> {
             if (dragAble) {
                 TowerImage.setX(event.getSceneX() - 45);
                 TowerImage.setY(event.getSceneY() - 50);
             }
         });
 
-        mainPane.setOnMouseReleased(event -> {
+        TowerImage.setOnMouseReleased(event -> {
             if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
                 TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
                 TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
@@ -88,11 +102,11 @@ public class Tower implements GameEntity {
     }
 
     public double getPosX() {
-        return 0;
+        return TowerImage.getTranslateX();
     }
 
     public double getPosY() {
-        return 0;
+        return TowerImage.getTranslateY();
     }
 
     public double getWidth() {

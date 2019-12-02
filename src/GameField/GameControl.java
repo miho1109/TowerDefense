@@ -17,32 +17,52 @@ import javafx.scene.control.Button;
 import static GameField.ViewManager.mainPane;
 
 public class GameControl {
+    private static int lives;
+
+    public static int getLives(){ return lives;}
+    public static void setLives(int ulives){ lives = ulives; }
+
+    public static void gameStart(){
+        lives = 5;
+        while(lives != 0){
+            spawnTroop(lives);
+        }
+        System.out.println("YOU LOSE !");
+    }
 
     public static ArrayList<Enemy> EnemyList = new ArrayList<>(1);
 
-    public static void spawnTroop(){
-        Timeline timeline  = new Timeline(new KeyFrame(Duration.millis(1500), event-> {
-            Enemy normalTroop = new Enemy(GameEntity.ObjectType.NormalTroop);
-            //Enemy eliteTroop = new Enemy(GameEntity.ObjectType.EliteTroop);
-            EnemyList.add(normalTroop);
-            /* Bullet ------------------------------------------------------------------------------- */
+    public static void spawnTroop(int lives){
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), event -> {
+                Enemy normalTroop = new Enemy(GameEntity.ObjectType.NormalTroop);
+                Enemy eliteTroop = new Enemy(GameEntity.ObjectType.EliteTroop);
+                EnemyList.add(normalTroop);
+                EnemyList.add(eliteTroop);
+                /* Bullet ------------------------------------------------------------------------------- */
 
-            for(Enemy e:EnemyList) {
-                if(e != null ) {
-                    Bullet bullet = new Bullet(GameEntity.ObjectType.bullet1, e.getPosX(), e.getPosX());
-                }
-            }
+//            for(Enemy e:EnemyList) {
+//                if(e != null ) {
+//                    Bullet bullet = new Bullet(GameEntity.ObjectType.bullet1, e.getPosX(), e.getPosX());
+//                }
+//            }
 
-            /*----------------------------------------------------------------------------------------*/
-        }));
-        timeline.setCycleCount(5);
-        timeline.play();
+                /*----------------------------------------------------------------------------------------*/
+            }));
+            timeline.setCycleCount(5);
+            timeline.play();
+            timeline.setOnFinished(event -> {
+                System.out.println("FINISH");
+            });
     }
 
-    public static void printTroopX(){
-        Timeline timeline  = new Timeline(new KeyFrame(Duration.millis(500), event-> {
-            if(EnemyList.get(0) != null){
-                System.out.println(EnemyList.get(2).getPosX());
+    void checkCollision(){
+
+    }
+
+    public static void printTroopX() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+            if (EnemyList.get(0) != null) {
+                System.out.println(EnemyList.get(0).getPosX());
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -51,8 +71,8 @@ public class GameControl {
 
     static void printMousePosition() {
         mainPane.setOnMouseMoved(event -> {
-            System.out.println("MouseX: " + (int) event.getSceneX() / 90);
-            System.out.println("MouseY: " + (int) event.getSceneY() / 90);
+            System.out.println("MouseX: " + (int) event.getSceneX() );
+            System.out.println("MouseY: " + (int) event.getSceneY() );
         });
     }
 
@@ -69,8 +89,8 @@ public class GameControl {
 
     public static void spawnTowerButton() {
         TowerButton normalTower = new TowerButton(new Tower(GameEntity.ObjectType.normalTower));
-        normalTower.setTranslateX(250);
-        normalTower.setTranslateY(250);
+        //normalTower.setTranslateX(250);
+        //normalTower.setTranslateY(250);
         //TowerButton airTower = new TowerButton(new Tower(GameEntity.ObjectType.airTower));
         //TowerButton lightTower = new TowerButton(new Tower(GameEntity.ObjectType.lightTower));
         //TowerButton heavyTower = new TowerButton(new Tower(GameEntity.ObjectType.heavyTower));

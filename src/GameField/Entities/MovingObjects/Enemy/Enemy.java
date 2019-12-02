@@ -1,8 +1,11 @@
 package GameField.Entities.MovingObjects.Enemy;
 
+import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.MovingObjects;
+import GameField.GameControl;
 import GameField.ViewManager;
 import javafx.animation.PathTransition;
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,42 +16,69 @@ import javafx.util.Duration;
 
 import java.io.File;
 
-public class Enemy extends MovingObjects {
+public class Enemy extends Pane implements GameEntity {
 
-    MoveTo moveTo = new MoveTo(150,716);
-    LineTo line1 = new LineTo(150, 540);
-    LineTo line2 = new LineTo(415,540);
-    LineTo line3 = new LineTo(427,80);
-    LineTo line4 = new LineTo(669,80);
-    LineTo line5 = new LineTo(680,444);
-    LineTo line6 = new LineTo(920,444);
-    LineTo line7 = new LineTo(933,183);
-    LineTo line8 = new LineTo(1270,170);
+    private ImageView EnemyImage;
+
+    MoveTo moveTo = new MoveTo(170,730);
+    LineTo line1 = new LineTo(170, 550);
+    LineTo line2 = new LineTo(440,550);
+    LineTo line3 = new LineTo(440,100);
+    LineTo line4 = new LineTo(720,100);
+    LineTo line5 = new LineTo(720,444);
+    LineTo line6 = new LineTo(980,444);
+    LineTo line7 = new LineTo(980,190);
+    LineTo line8 = new LineTo(1350,170);
 
     public Enemy(ObjectType type) {
         switch (type){
             case NormalTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
-                setPath(15000, moveTo, line1, line2, line3, line4, line5, line6, line7,line8);
+                setPath(15000);
                 break;
             case EliteTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
-                setPath(13500, moveTo, line1, line2, line3, line4, line5, line6, line7,line8);
+                setPath(13500);
                 break;
             case Tanker:
                 //new Tanker();
             case Boss:
                 //new Boss();
         }
+        this.getChildren().add(EnemyImage);
+        ViewManager.mainPane.getChildren().add(EnemyImage);
+    }
+
+    private void setPath(int speed){
+        Path path = new Path();
+        path.getElements().add(moveTo);
+        path.getElements().addAll(line1,line2,line3,line4,line5,line6,line7,line8);
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(speed));
+        pathTransition.setNode(EnemyImage);
+        pathTransition.setPath(path);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setAutoReverse(false);
+        pathTransition.setOnFinished(actonEvent ->{
+            terminated();
+        });
+        pathTransition.play();
+    }
+
+    void terminated(){
+        ViewManager.mainPane.getChildren().remove(EnemyImage);
+        EnemyImage = null;
+        GameControl.setLives(GameControl.getLives()-1);
     }
 
     private void loadImage(String location){
         EnemyImage = new ImageView(new Image(location));
         EnemyImage.setPreserveRatio(true);
-        EnemyImage.setX(150);
-        EnemyImage.setY(716);
-        ViewManager.mainPane.getChildren().add(EnemyImage);
+        EnemyImage.setTranslateX(150);
+        EnemyImage.setTranslateY(716);
     }
+
+    public Bounds getBound() { return EnemyImage.getBoundsInParent(); }
 
     public double getPosX() {
         return EnemyImage.getTranslateX();
@@ -58,23 +88,12 @@ public class Enemy extends MovingObjects {
         return EnemyImage.getTranslateY();
     }
 
-    @Override
-    public double getWidth() {
+    public double getW() {
         return 0;
     }
 
-    @Override
-    public double getHeight() {
+    public double getH() {
         return 0;
     }
 
-    public boolean isContaining(double posX, double posY, double width, double height){
-        return false;
-    }
-    public boolean isBeingContained(double posX, double posY, double width, double height){
-        return false;
-    }
-    public boolean isBeingOverlapped(double posX, double posY, double width, double height){
-        return false;
-    }
 }
