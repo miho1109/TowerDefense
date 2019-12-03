@@ -92,11 +92,7 @@ public class GameControl {
             System.out.println("MouseY: " + (int) event.getSceneY() );
         });
     }
-
-    public static void spawnTower() {
-        Tower normalTower = new Tower(GameEntity.ObjectType.lightTower);
-    }
-
+    
     public static void drawGrid() {
         Grid grid = new Grid();
     }
