@@ -4,11 +4,13 @@ import javafx.scene.image.ImageView;
 
 public interface GameEntity {
 
-    public enum ObjectType{
+     enum ObjectType{
+        OnGround,
+        InAir,
         NormalTroop,
         EliteTroop,
         Tank,
-        Boss,
+        Plane,
         normalTower,
         airTower,
         lightTower,

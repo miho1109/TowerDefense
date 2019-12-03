@@ -35,37 +35,46 @@ public class Enemy extends Pane implements GameEntity {
         switch (type){
             case NormalTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
-                setPath(15000);
+                setPath(15000, GameEntity.ObjectType.OnGround);
                 break;
             case EliteTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
-                setPath(13500);
+                setPath(13500, GameEntity.ObjectType.OnGround);
                 break;
             case Tank:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
-                setPath(20000);
+                setPath(30000, GameEntity.ObjectType.OnGround);
                 break;
-            case Boss:
-                //new Boss();
+            case Plane:
+                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/plane.png");
+                setPath(30000, ObjectType.InAir);
+                break;
         }
         this.getChildren().add(EnemyImage);
         ViewManager.mainPane.getChildren().add(EnemyImage);
     }
 
-    private void setPath(int speed){
-        Path path = new Path();
-        path.getElements().add(moveTo);
-        path.getElements().addAll(line1,line2,line3,line4,line5,line6,line7,line8);
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(speed));
-        pathTransition.setNode(EnemyImage);
-        pathTransition.setPath(path);
-        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransition.setAutoReverse(false);
-        pathTransition.setOnFinished(actonEvent ->{
-            terminated();
-        });
-        pathTransition.play();
+    private void setPath(int speed, ObjectType type){
+            Path path = new Path();
+            path.getElements().add(moveTo);
+            switch (type){
+                case OnGround:
+                    path.getElements().addAll(line1, line2, line3, line4, line5, line6, line7, line8);
+                    break;
+                case InAir:
+                    path.getElements().addAll(line3, line5, line8);
+                    break;
+            }
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.millis(speed));
+            pathTransition.setNode(EnemyImage);
+            pathTransition.setPath(path);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setAutoReverse(false);
+            pathTransition.setOnFinished(actonEvent -> {
+                terminated();
+            });
+            pathTransition.play();
     }
 
     private void terminated(){

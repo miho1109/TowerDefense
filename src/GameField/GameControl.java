@@ -40,22 +40,29 @@ public class GameControl {
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), event -> {
                 switch (level){
                     case 1:
-                        EnemyList.add( new Enemy(GameEntity.ObjectType.NormalTroop));
-                        break;
-                    case 2:
-                        System.out.println("lv2");
+                    case 2: {
                         EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
                         break;
+                    }
                     case 3:
-                        System.out.println("lv3");
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
+                    case 4: {
+                        //EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
                         EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
+                        break;
+                    }
+                    case 5: {
+//                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
+//                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
                         EnemyList.add(new Enemy(GameEntity.ObjectType.Tank));
                         break;
-                    case 4:
-                        System.out.println("lv4");
+                    }
+                    case 6: {
+                        EnemyList.add(new Enemy((GameEntity.ObjectType.Plane)));
                         break;
+                    }
+                    case 7:{
+                        break;
+                    }
                 }
             }));
             timeline.setCycleCount(quantities);
@@ -63,9 +70,8 @@ public class GameControl {
             timeline.setOnFinished(event -> {
                 System.out.println("FINISH");
                 timeline.setDelay(Duration.seconds(2));
-                spawnTroop(5, quantities +2, level + 1);
+                spawnTroop(5, quantities + 1, level + 1);
             });
-
     }
 
     void checkCollision(){
