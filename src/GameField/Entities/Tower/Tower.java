@@ -6,8 +6,6 @@ import GameField.ViewManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import static GameField.ViewManager.mainPane;
-
 public class Tower implements GameEntity {
     protected ImageView TowerImage;
     public ObjectType currentType;
@@ -33,13 +31,13 @@ public class Tower implements GameEntity {
 
     private void loadTowerImage(ObjectType type) {
         switch (type) {
-            case normalTower:
-                loadImage("GameField/Entities/Tower/Resources/normalTower.png");
+            case frozer:
+                loadImage("GameField/Entities/Tower/Resources/frozer.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(0);
                 break;
 
-            case airTower:
+            case missle:
                 loadImage("GameField/Entities/Tower/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);

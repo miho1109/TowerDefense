@@ -3,7 +3,6 @@ package GameField;
 import GameField.Entities.Button.TowerButton;
 import GameField.Entities.Button.testingButton;
 import GameField.Entities.GameEntity;
-import GameField.Entities.MovingObjects.Bullet.Bullet;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.Entities.Tower.Tower;
 import javafx.animation.KeyFrame;
@@ -12,7 +11,6 @@ import javafx.animation.Animation;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import javafx.scene.control.Button;
 
 import static GameField.ViewManager.mainPane;
 
@@ -37,27 +35,27 @@ public class GameControl {
     }
 
     public static void spawnTroop(int lives, int quantities, int level){
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), event -> {
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
                 switch (level){
                     case 1:
                     case 2: {
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.normalTroop));
                         break;
                     }
                     case 3:
                     case 4: {
                         //EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.eliteTroop));
                         break;
                     }
                     case 5: {
 //                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
 //                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.Tank));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.tank));
                         break;
                     }
                     case 6: {
-                        EnemyList.add(new Enemy((GameEntity.ObjectType.Plane)));
+                        EnemyList.add(new Enemy((GameEntity.ObjectType.plane)));
                         break;
                     }
                     case 7:{
@@ -103,11 +101,11 @@ public class GameControl {
     }
 
     public static void spawnTower() {
-        Tower normalTower = new Tower(GameEntity.ObjectType.normalTower);
+        Tower normalTower = new Tower(GameEntity.ObjectType.lightTower);
     }
 
     public static void spawnTowerButton() {
-        TowerButton normalTower = new TowerButton(new Tower(GameEntity.ObjectType.normalTower));
+        TowerButton normalTower = new TowerButton(new Tower(GameEntity.ObjectType.lightTower));
         //normalTower.setTranslateX(250);
         //normalTower.setTranslateY(250);
         //TowerButton airTower = new TowerButton(new Tower(GameEntity.ObjectType.airTower));

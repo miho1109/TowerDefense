@@ -1,7 +1,6 @@
 package GameField.Entities.MovingObjects.Enemy;
 
 import GameField.Entities.GameEntity;
-import GameField.Entities.MovingObjects.MovingObjects;
 import GameField.GameControl;
 import GameField.ViewManager;
 import javafx.animation.PathTransition;
@@ -14,14 +13,12 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-import java.io.File;
-
 public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
     private boolean survive = false;
 
-    MoveTo moveTo = new MoveTo(170,730);
+    MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
     LineTo line2 = new LineTo(440,550);
     LineTo line3 = new LineTo(440,100);
@@ -29,25 +26,25 @@ public class Enemy extends Pane implements GameEntity {
     LineTo line5 = new LineTo(720,444);
     LineTo line6 = new LineTo(980,444);
     LineTo line7 = new LineTo(980,190);
-    LineTo line8 = new LineTo(1350,170);
+    LineTo line8 = new LineTo(1310,170);
 
     public Enemy(ObjectType type) {
         switch (type){
-            case NormalTroop:
+            case normalTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
-                setPath(15000, GameEntity.ObjectType.OnGround);
+                setPath(15000, GameEntity.ObjectType.onGround);
                 break;
-            case EliteTroop:
+            case eliteTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
-                setPath(13500, GameEntity.ObjectType.OnGround);
+                setPath(13500, GameEntity.ObjectType.onGround);
                 break;
-            case Tank:
+            case tank:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
-                setPath(30000, GameEntity.ObjectType.OnGround);
+                setPath(30000, GameEntity.ObjectType.onGround);
                 break;
-            case Plane:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/plane.png");
-                setPath(30000, ObjectType.InAir);
+            case plane:
+                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
+                setPath(13000, ObjectType.inAir);
                 break;
         }
         this.getChildren().add(EnemyImage);
@@ -58,10 +55,10 @@ public class Enemy extends Pane implements GameEntity {
             Path path = new Path();
             path.getElements().add(moveTo);
             switch (type){
-                case OnGround:
+                case onGround:
                     path.getElements().addAll(line1, line2, line3, line4, line5, line6, line7, line8);
                     break;
-                case InAir:
+                case inAir:
                     path.getElements().addAll(line3, line5, line8);
                     break;
             }
@@ -91,8 +88,8 @@ public class Enemy extends Pane implements GameEntity {
     private void loadImage(String location){
         EnemyImage = new ImageView(new Image(location));
         EnemyImage.setPreserveRatio(true);
-        EnemyImage.setTranslateX(150);
-        EnemyImage.setTranslateY(716);
+        EnemyImage.setTranslateX(170);
+        EnemyImage.setTranslateY(750);
     }
 
     public Bounds getBound() { return EnemyImage.getBoundsInParent(); }

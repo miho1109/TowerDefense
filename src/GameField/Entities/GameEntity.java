@@ -5,17 +5,20 @@ import javafx.scene.image.ImageView;
 public interface GameEntity {
 
      enum ObjectType{
-        OnGround,
-        InAir,
-        NormalTroop,
-        EliteTroop,
-        Tank,
-        Plane,
-        normalTower,
-        airTower,
+         onGround,
+         inAir,
+         normalTroop,
+         eliteTroop,
+         tank,
+         plane,
+        frozer,
+        launcher,
         lightTower,
         heavyTower,
-        bullet1,
+        lightBullet,
+         heavyBullet,
+         missle,
+
     }
 
     double getPosX();

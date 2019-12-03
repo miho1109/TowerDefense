@@ -35,7 +35,7 @@ public class TowerButton implements GameEntity {
     private void loadTowerImage(ObjectType type) {
         switch (type) {
             case normalTower:
-                loadImage("GameField/Entities/Tower/Resources/normalTower.png");
+                loadImage("GameField/Entities/Tower/Resources/frozer.png");
                 break;
             /*
             case airTower:

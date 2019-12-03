@@ -1,7 +1,6 @@
 package GameField.Entities.MovingObjects.Bullet;
 
 import GameField.Entities.GameEntity;
-import GameField.Entities.MovingObjects.MovingObjects;
 import GameField.ViewManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -18,9 +17,26 @@ import javafx.util.Duration;
 public class Bullet extends Pane implements GameEntity {
 
     ImageView bullet;
-    public Bullet(ObjectType type, double targetX, double targetY){
+    public Bullet(ObjectType bulletType, double targetX, double targetY){
         Timeline bullettimeline = new Timeline(new KeyFrame(Duration.millis(300), bulletevent-> {
-            loadImage("GameField/Entities/MovingObjects/Bullet/Resources/bullet1.png");
+            switch(bulletType){
+                case lightTower: {
+                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
+                    break;
+                }
+                case heavyTower:{
+                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
+                    break;
+                }
+                case frozer:{
+                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
+                    break;
+                }
+                case missle:{
+                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
+                    break;
+                }
+            }
             setPath(targetX, targetY);
             //this.getChildren().add(bullet);
 

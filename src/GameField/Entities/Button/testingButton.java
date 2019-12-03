@@ -12,7 +12,7 @@ public class testingButton {
 
     public testingButton() {
 
-        Image normalTowerIMG = new Image("GameField/Entities/Tower/Resources/normalTower.png");
+        Image normalTowerIMG = new Image("GameField/Entities/Tower/Resources/frozer.png");
         ImageView normalTowerIV = new ImageView(normalTowerIMG);
 
         Image airTowerIMG = new Image("GameField/Entities/Tower/Resources/airTower.png");
