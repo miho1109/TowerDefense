@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import static GameField.ViewManager.mainPane;
+
 public class Tower implements GameEntity {
     protected ImageView TowerImage;
     public ObjectType currentType;
@@ -19,22 +21,19 @@ public class Tower implements GameEntity {
     private double fireRate;
     private double damage;
     private boolean dragAble = true;
-    
+    private double shootRange;
+
     Circle towerRange = new Circle();
 
     public Tower(ObjectType type) {
         loadTowerImage(type);
         currentType = type;
+        dragTower();
         towerRange.setRadius(shootRange);
         towerRange.setFill(Color.TRANSPARENT);
         towerRange.setStroke(Color.RED);
-        dragTower();
         ViewManager.mainPane.getChildren().add(TowerImage);
         ViewManager.mainPane.getChildren().add(towerRange);
-    }
-
-    public ObjectType getCurrentType() {
-        return currentType;
     }
 
     private void loadTowerImage(ObjectType type) {
@@ -43,21 +42,21 @@ public class Tower implements GameEntity {
                 loadImage("GameField/Entities/Tower/Resources/frozer.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(0);
-                shootRange = 150;
+                shootRange = 90;
                 break;
 
-            case missle:
+            case airTower:
                 loadImage("GameField/Entities/Tower/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
-                shootRange = 150;
+                shootRange = 130;
                 break;
 
             case lightTower:
                 loadImage("GameField/Entities/Tower/Resources/lightTower.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(140);
-                shootRange = 200;
+                shootRange = 170;
                 break;
 
             case heavyTower:
@@ -66,6 +65,7 @@ public class Tower implements GameEntity {
                 TowerImage.setY(140);
                 shootRange = 100;
                 break;
+
         }
     }
 
@@ -86,15 +86,8 @@ public class Tower implements GameEntity {
     }
 
     private void dragTower() {
-//        TowerImage.setOnMouseClicked(event -> {
-//            if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
-//                TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
-//                TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
-//                dragAble = false;
-//            }
-//        });
 
-        ViewManager.mainPane.setOnMouseMoved(event -> {
+        mainPane.setOnMouseMoved(event -> {
             if (dragAble) {
                 TowerImage.setX(event.getSceneX() - 45);
                 TowerImage.setY(event.getSceneY() - 50);
@@ -104,13 +97,18 @@ public class Tower implements GameEntity {
             }
         });
 
-        TowerImage.setOnMouseReleased(event -> {
+        mainPane.setOnMouseReleased(event -> {
             if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
                 TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
                 TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
                 towerRange.setCenterX(TowerImage.getX()+45);
                 towerRange.setCenterY(TowerImage.getY()+45);
                 towerRange.setVisible(false);
+                /*
+                int i = (int)(event.getSceneY() / 90) * 90;
+                int j = (int)(event.getSceneX() / 90) * 90;
+                Grid.newGrid[i][j] = 0;
+                 */
                 dragAble = false;
             }
         });
@@ -118,11 +116,11 @@ public class Tower implements GameEntity {
     }
 
     public double getPosX() {
-        return TowerImage.getTranslateX();
+        return 0;
     }
 
     public double getPosY() {
-        return TowerImage.getTranslateY();
+        return 0;
     }
 
     public double getWidth() {
