@@ -42,7 +42,7 @@ public class Enemy extends Pane implements GameEntity {
                 setPath(13500);
                 break;
             case Tank:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tank.png");
+                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
                 setPath(20000);
                 break;
             case Boss:
