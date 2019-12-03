@@ -27,8 +27,6 @@ public class ViewManager extends VBox{
         //GameControl.gameStart();
         GameControl.spawnTroop(5,2, 1);
         //GameControl.printMousePosition();
-        //GameControl.spawnTower();
-        //GameControl.spawnTowerButton();
         //GameControl.mouseClicked();
         //GameControl.printTroopX();
         GameControl.createTestButton();
