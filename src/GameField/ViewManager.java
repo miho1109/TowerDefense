@@ -21,7 +21,8 @@ public class ViewManager extends VBox{
         mainStage.setScene(mainScene);
         createBackGround();
         GameControl.drawGrid();
-        GameControl.gameStart();
+        //GameControl.gameStart();
+        GameControl.spawnTroop(5,2, 1);
         //GameControl.printMousePosition();
         //GameControl.spawnTower();
         //GameControl.spawnTowerButton();

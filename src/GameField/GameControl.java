@@ -21,38 +21,51 @@ public class GameControl {
 
     public static int getLives(){ return lives;}
     public static void setLives(int ulives){ lives = ulives; }
+    public static ArrayList<Enemy> EnemyList = new ArrayList<>(1);
 
     public static void gameStart(){
         lives = 5;
-        while(lives != 0){
-            spawnTroop(lives);
+        while (lives > 0 ) {
+            spawnTroop(5,5,1);
+            for(Enemy e: EnemyList){
+                if(e.checkTroopSurvive()){
+                    lives--;
+                }
+            }
         }
         System.out.println("YOU LOSE !");
     }
 
-    public static ArrayList<Enemy> EnemyList = new ArrayList<>(1);
-
-    public static void spawnTroop(int lives){
+    public static void spawnTroop(int lives, int quantities, int level){
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), event -> {
-                Enemy normalTroop = new Enemy(GameEntity.ObjectType.NormalTroop);
-                Enemy eliteTroop = new Enemy(GameEntity.ObjectType.EliteTroop);
-                EnemyList.add(normalTroop);
-                EnemyList.add(eliteTroop);
-                /* Bullet ------------------------------------------------------------------------------- */
-
-//            for(Enemy e:EnemyList) {
-//                if(e != null ) {
-//                    Bullet bullet = new Bullet(GameEntity.ObjectType.bullet1, e.getPosX(), e.getPosX());
-//                }
-//            }
-
-                /*----------------------------------------------------------------------------------------*/
+                switch (level){
+                    case 1:
+                        EnemyList.add( new Enemy(GameEntity.ObjectType.NormalTroop));
+                        break;
+                    case 2:
+                        System.out.println("lv2");
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
+                        break;
+                    case 3:
+                        System.out.println("lv3");
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
+                        EnemyList.add(new Enemy(GameEntity.ObjectType.Tank));
+                        break;
+                    case 4:
+                        System.out.println("lv4");
+                        break;
+                }
             }));
-            timeline.setCycleCount(5);
+            timeline.setCycleCount(quantities);
             timeline.play();
             timeline.setOnFinished(event -> {
                 System.out.println("FINISH");
+                timeline.setDelay(Duration.seconds(2));
+                spawnTroop(5, quantities +2, level + 1);
             });
+
     }
 
     void checkCollision(){
