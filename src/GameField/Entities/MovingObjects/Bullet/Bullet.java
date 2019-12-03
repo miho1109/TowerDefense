@@ -17,8 +17,8 @@ import javafx.util.Duration;
 public class Bullet extends Pane implements GameEntity {
 
     ImageView bullet;
+
     public Bullet(ObjectType bulletType, double targetX, double targetY){
-        Timeline bullettimeline = new Timeline(new KeyFrame(Duration.millis(300), bulletevent-> {
             switch(bulletType){
                 case lightTower: {
                     loadImage("GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
@@ -38,20 +38,17 @@ public class Bullet extends Pane implements GameEntity {
                 }
             }
             setPath(targetX, targetY);
-            //this.getChildren().add(bullet);
-
-        }));
-        bullettimeline.setCycleCount(Animation.INDEFINITE);
-        bullettimeline.play();
+            this.getChildren().add(bullet);
+            ViewManager.mainPane.getChildren().add(this);
     }
 
     private void loadImage(String location){
         bullet = new ImageView(new Image(location));
         bullet.setPreserveRatio(true);
-        bullet.setTranslateX(170);
-        bullet.setTranslateY(720);
-        ViewManager.mainPane.getChildren().add(this);
+        this.setTranslateX(170);
+        this.setTranslateY(750);
     }
+
     private void setPath(double targetX, double targetY){
         Path path = new Path();
         MoveTo moveTo = new MoveTo(50, 600);
@@ -60,12 +57,12 @@ public class Bullet extends Pane implements GameEntity {
         if(targetX >0 && targetY >0)    path.getElements().addAll(line1);
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(500));
-        pathTransition.setNode(bullet);
+        pathTransition.setNode(this);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{
-            ViewManager.mainPane.getChildren().remove(bullet);
+            ViewManager.mainPane.getChildren().remove(this);
             bullet = null;
         });
         pathTransition.play();

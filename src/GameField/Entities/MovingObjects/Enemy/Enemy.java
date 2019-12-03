@@ -88,8 +88,8 @@ public class Enemy extends Pane implements GameEntity {
     private void loadImage(String location){
         EnemyImage = new ImageView(new Image(location));
         EnemyImage.setPreserveRatio(true);
-        EnemyImage.setTranslateX(170);
-        EnemyImage.setTranslateY(750);
+        this.setTranslateX(170);
+        this.setTranslateY(750);
     }
 
     public Bounds getBound() { return EnemyImage.getBoundsInParent(); }

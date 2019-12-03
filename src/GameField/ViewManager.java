@@ -1,5 +1,7 @@
 package GameField;
 
+import GameField.Entities.GameEntity;
+import GameField.Entities.MovingObjects.Bullet.Bullet;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -19,6 +21,7 @@ public class ViewManager extends VBox{
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
         createBackGround();
         GameControl.drawGrid();
         //GameControl.gameStart();
@@ -29,6 +32,7 @@ public class ViewManager extends VBox{
         //GameControl.mouseClicked();
         //GameControl.printTroopX();
         GameControl.createTestButton();
+        Bullet b = new Bullet(GameEntity.ObjectType.lightTower, 50 ,50);
     }
 
 
