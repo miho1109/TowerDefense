@@ -19,6 +19,7 @@ import java.io.File;
 public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
+    private boolean survive = false;
 
     MoveTo moveTo = new MoveTo(170,730);
     LineTo line1 = new LineTo(170, 550);
@@ -40,8 +41,10 @@ public class Enemy extends Pane implements GameEntity {
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
                 setPath(13500);
                 break;
-            case Tanker:
-                //new Tanker();
+            case Tank:
+                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tank.png");
+                setPath(20000);
+                break;
             case Boss:
                 //new Boss();
         }
@@ -65,10 +68,15 @@ public class Enemy extends Pane implements GameEntity {
         pathTransition.play();
     }
 
-    void terminated(){
+    private void terminated(){
         ViewManager.mainPane.getChildren().remove(EnemyImage);
         EnemyImage = null;
         GameControl.setLives(GameControl.getLives()-1);
+        this.survive = true;
+    }
+
+    public boolean checkTroopSurvive(){
+        return this.survive;
     }
 
     private void loadImage(String location){

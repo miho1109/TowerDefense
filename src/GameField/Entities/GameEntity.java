@@ -7,7 +7,7 @@ public interface GameEntity {
     public enum ObjectType{
         NormalTroop,
         EliteTroop,
-        Tanker,
+        Tank,
         Boss,
         normalTower,
         airTower,
