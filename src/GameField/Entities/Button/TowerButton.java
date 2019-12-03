@@ -13,17 +13,10 @@ public class TowerButton {
 
     public TowerButton() {
 
-        Image normalTowerIMG = new Image("GameField/Entities/Tower/Resources/frozer.png");
-        ImageView normalTowerIV = new ImageView(normalTowerIMG);
-
-        Image airTowerIMG = new Image("GameField/Entities/Tower/Resources/airTower.png");
-        ImageView airTowerIV = new ImageView(airTowerIMG);
-
-        Image lightTowerIMG = new Image("GameField/Entities/Tower/Resources/lightTower.png");
-        ImageView lightTowerIV = new ImageView(lightTowerIMG);
-
-        Image heavyTowerIMG = new Image("GameField/Entities/Tower/Resources/heavyTower.png");
-        ImageView heavyTowerIV = new ImageView(heavyTowerIMG);
+        ImageView normalTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/frozer.png"));
+        ImageView airTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/airTower.png"));
+        ImageView lightTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/lightTower.png"));
+        ImageView heavyTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/heavyTower.png"));
 
         Button normalTower = new Button("", normalTowerIV);
         Button airTower = new Button("", airTowerIV);
@@ -75,12 +68,6 @@ public class TowerButton {
         ViewManager.mainPane.getChildren().add(lightTower);
         ViewManager.mainPane.getChildren().add(heavyTower);
     };
-
-    private void setMouse() {
-        mainPane.setOnMouseClicked(event -> {
-
-        });
-    }
 
     private void spawnNormalTower() {
         Tower temp = new Tower(GameEntity.ObjectType.frozer);
