@@ -45,7 +45,7 @@ public class Tower implements GameEntity {
                 shootRange = 90;
                 break;
 
-            case airTower:
+            case missle:
                 loadImage("GameField/Entities/Tower/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
