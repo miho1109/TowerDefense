@@ -82,7 +82,7 @@ public class Tower implements GameEntity {
 //            }
 //        });
 
-        TowerImage.setOnMouseDragged(event -> {
+        ViewManager.mainPane.setOnMouseMoved(event -> {
             if (dragAble) {
                 TowerImage.setX(event.getSceneX() - 45);
                 TowerImage.setY(event.getSceneY() - 50);

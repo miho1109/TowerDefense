@@ -48,7 +48,7 @@ public class Enemy extends Pane implements GameEntity {
                 break;
         }
         this.getChildren().add(EnemyImage);
-        ViewManager.mainPane.getChildren().add(EnemyImage);
+        ViewManager.mainPane.getChildren().add(this);
     }
 
     private void setPath(int speed, ObjectType type){
@@ -64,7 +64,7 @@ public class Enemy extends Pane implements GameEntity {
             }
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.millis(speed));
-            pathTransition.setNode(EnemyImage);
+            pathTransition.setNode(this);
             pathTransition.setPath(path);
             pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
             pathTransition.setAutoReverse(false);
@@ -75,7 +75,7 @@ public class Enemy extends Pane implements GameEntity {
     }
 
     private void terminated(){
-        ViewManager.mainPane.getChildren().remove(EnemyImage);
+        ViewManager.mainPane.getChildren().remove(this);
         EnemyImage = null;
         GameControl.setLives(GameControl.getLives()-1);
         this.survive = true;

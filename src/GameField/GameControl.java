@@ -1,7 +1,6 @@
 package GameField;
 
 import GameField.Entities.Button.TowerButton;
-import GameField.Entities.Button.testingButton;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.Entities.Tower.Tower;
@@ -19,7 +18,8 @@ public class GameControl {
 
     public static int getLives(){ return lives;}
     public static void setLives(int ulives){ lives = ulives; }
-    public static ArrayList<Enemy> EnemyList = new ArrayList<>(1);
+    public static ArrayList<Enemy> EnemyList = new ArrayList<>();
+    public static ArrayList<Tower> TowerList = new ArrayList<>();
 
     public static void gameStart(){
         lives = 5;
@@ -93,24 +93,8 @@ public class GameControl {
         });
     }
 
-    public static void mouseClicked() {
-        mainPane.setOnMouseClicked(event -> {
-            if((int) event.getSceneY() / 90 == 7)
-            spawnTowerButton();
-        });
-    }
-
     public static void spawnTower() {
         Tower normalTower = new Tower(GameEntity.ObjectType.lightTower);
-    }
-
-    public static void spawnTowerButton() {
-        TowerButton normalTower = new TowerButton(new Tower(GameEntity.ObjectType.lightTower));
-        //normalTower.setTranslateX(250);
-        //normalTower.setTranslateY(250);
-        //TowerButton airTower = new TowerButton(new Tower(GameEntity.ObjectType.airTower));
-        //TowerButton lightTower = new TowerButton(new Tower(GameEntity.ObjectType.lightTower));
-        //TowerButton heavyTower = new TowerButton(new Tower(GameEntity.ObjectType.heavyTower));
     }
 
     public static void drawGrid() {
@@ -118,7 +102,7 @@ public class GameControl {
     }
 
     public static void createTestButton() {
-        testingButton TB = new testingButton();
+        TowerButton TB = new TowerButton();
     }
 
 }
