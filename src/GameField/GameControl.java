@@ -37,43 +37,99 @@ public class GameControl {
     public static void spawnTroop(int lives, int quantities, int level){
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
                 switch (level){
-                    case 1:
-                    case 2: {
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.normalTroop));
+                    case 1:{
+                        creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         break;
                     }
-                    case 3:
+                    case 2: {
+                      creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 10);
+                        break;
+                    }
+                    case 3:{
+                        creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
+                        creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 5);
+                        break;
+                    }
                     case 4: {
-                        //EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.eliteTroop));
+                        creatTroopByNeed(GameEntity.ObjectType.tank, 3);
                         break;
                     }
                     case 5: {
-//                        EnemyList.add(new Enemy(GameEntity.ObjectType.NormalTroop));
-//                        EnemyList.add(new Enemy(GameEntity.ObjectType.EliteTroop));
-                        EnemyList.add(new Enemy(GameEntity.ObjectType.tank));
+                        creatTroopByNeed(GameEntity.ObjectType.tank, 2);
+                        creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         break;
                     }
                     case 6: {
-                        EnemyList.add(new Enemy((GameEntity.ObjectType.plane)));
+                        creatTroopByNeed(GameEntity.ObjectType.plane, 5);
+                        creatTroopByNeed(GameEntity.ObjectType.tank, 3);
                         break;
                     }
                     case 7:{
+                        creatTroopByNeed(GameEntity.ObjectType.normalTroop, 3);
+                        creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 3);
+                        creatTroopByNeed(GameEntity.ObjectType.tank, 3);
+                        creatTroopByNeed(GameEntity.ObjectType.plane, 3);
+                        break;
+                    }
+                    default:
+                    {
+                        creatTroopByNeed(GameEntity.ObjectType.normalTroop, quantities);
+                        creatTroopByNeed(GameEntity.ObjectType.eliteTroop, quantities);
+                        creatTroopByNeed(GameEntity.ObjectType.tank, quantities);
+                        creatTroopByNeed(GameEntity.ObjectType.plane, quantities);
                         break;
                     }
                 }
             }));
-            timeline.setCycleCount(quantities);
+            timeline.setCycleCount(1);
             timeline.play();
             timeline.setOnFinished(event -> {
                 System.out.println("FINISH");
-                timeline.setDelay(Duration.seconds(2));
-                spawnTroop(5, quantities + 1, level + 1);
+               Timeline delayBFStart = new Timeline(new KeyFrame(Duration.seconds(20), event1 -> {
+               }));
+               delayBFStart.setCycleCount(1);
+               delayBFStart.play();
+               delayBFStart.setOnFinished(event1 -> {
+                   spawnTroop(5, quantities + 1, level + 1);
+               });
             });
     }
 
-    void checkCollision(){
-
+    private static void creatTroopByNeed(GameEntity.ObjectType type, int quantities){
+        switch (type){
+            case normalTroop: {
+                Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                    EnemyList.add(new Enemy(GameEntity.ObjectType.normalTroop));
+                }));
+                timeline.setCycleCount(quantities);
+                timeline.play();
+                break;
+            }
+            case eliteTroop: {
+                Timeline timeline1 = new Timeline(new KeyFrame(Duration.millis(800), event -> {
+                    EnemyList.add(new Enemy(GameEntity.ObjectType.eliteTroop));
+                }));
+                timeline1.setCycleCount(quantities);
+                timeline1.play();
+                break;
+            }
+            case tank: {
+                Timeline timeline2 = new Timeline(new KeyFrame(Duration.millis(2000), event -> {
+                    EnemyList.add(new Enemy(GameEntity.ObjectType.tank));
+                }));
+                timeline2.setCycleCount(quantities);
+                timeline2.play();
+                break;
+            }
+            case plane: {
+                Timeline timeline3 = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+                    EnemyList.add(new Enemy(GameEntity.ObjectType.plane));
+                }));
+                timeline3.setCycleCount(quantities);
+                timeline3.play();
+                break;
+            }
+        }
     }
 
     public static void printTroopX() {

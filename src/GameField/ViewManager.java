@@ -21,16 +21,15 @@ public class ViewManager extends VBox{
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
-        mainStage.setResizable(false);
+        //mainStage.setResizable(false);
         createBackGround();
         GameControl.drawGrid();
         //GameControl.gameStart();
-        GameControl.spawnTroop(5,2, 1);
+        GameControl.spawnTroop(5,3, 1);
         //GameControl.printMousePosition();
         //GameControl.mouseClicked();
         //GameControl.printTroopX();
         GameControl.createTestButton();
-        Bullet b = new Bullet(GameEntity.ObjectType.lightTower, 50 ,50);
     }
 
 

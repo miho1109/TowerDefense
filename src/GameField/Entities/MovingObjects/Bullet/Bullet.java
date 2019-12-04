@@ -1,6 +1,7 @@
 package GameField.Entities.MovingObjects.Bullet;
 
 import GameField.Entities.GameEntity;
+import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.ViewManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -9,6 +10,7 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -18,28 +20,43 @@ public class Bullet extends Pane implements GameEntity {
 
     ImageView bullet;
 
-    public Bullet(ObjectType bulletType, double targetX, double targetY){
+    public Bullet(ObjectType bulletType, double spawnX, double spawnY, double targetX, double targetY){
             switch(bulletType){
                 case lightTower: {
-                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
+                    }));
+                    timeline.setCycleCount(Animation.INDEFINITE);
+                    timeline.play();
                     break;
                 }
                 case heavyTower:{
-                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
+                    }));
+                    timeline.setCycleCount(Animation.INDEFINITE);
+                    timeline.play();
                     break;
                 }
                 case frozer:{
-                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
+                    }));
+                    timeline.setCycleCount(Animation.INDEFINITE);
+                    timeline.play();
                     break;
                 }
                 case missle:{
-                    loadImage("GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
+                    }));
+                    timeline.setCycleCount(Animation.INDEFINITE);
+                    timeline.play();
                     break;
                 }
             }
-            setPath(targetX, targetY);
+            setPath(spawnX, spawnY, targetX, targetY);
             this.getChildren().add(bullet);
-            ViewManager.mainPane.getChildren().add(this);
     }
 
     private void loadImage(String location){
@@ -49,16 +66,14 @@ public class Bullet extends Pane implements GameEntity {
         this.setTranslateY(750);
     }
 
-    private void setPath(double targetX, double targetY){
-        Path path = new Path();
-        MoveTo moveTo = new MoveTo(50, 600);
-        LineTo line1 = new LineTo(targetX, targetY);
-        path.getElements().add(moveTo);
-        if(targetX >0 && targetY >0)    path.getElements().addAll(line1);
+    private void setPath(double spawnX, double spawnY, double targetX, double targetY){
+        Line line = new Line();
+        line.setStartX(spawnX);       line.setEndX(targetX);
+        line.setStartY(spawnY);       line.setEndY(targetY);
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(500));
         pathTransition.setNode(this);
-        pathTransition.setPath(path);
+        pathTransition.setPath(line);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{

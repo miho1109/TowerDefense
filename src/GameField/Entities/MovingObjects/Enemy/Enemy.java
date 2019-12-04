@@ -5,6 +5,7 @@ import GameField.GameControl;
 import GameField.ViewManager;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -17,6 +18,8 @@ public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
     private boolean survive = false;
+    private ProgressBar healthBar;
+    private int health;
 
     MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
@@ -26,29 +29,43 @@ public class Enemy extends Pane implements GameEntity {
     LineTo line5 = new LineTo(720,444);
     LineTo line6 = new LineTo(980,444);
     LineTo line7 = new LineTo(980,190);
-    LineTo line8 = new LineTo(1310,170);
+    LineTo line8 = new LineTo(1320,180);
 
     public Enemy(ObjectType type) {
         switch (type){
             case normalTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
-                setPath(15000, GameEntity.ObjectType.onGround);
+                setPath(20000, GameEntity.ObjectType.onGround);
+                generateHealthBar(ObjectType.normalTroop, 10);
                 break;
             case eliteTroop:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
-                setPath(13500, GameEntity.ObjectType.onGround);
+                setPath(15000, GameEntity.ObjectType.onGround);
+                generateHealthBar(ObjectType.eliteTroop, 15);
                 break;
             case tank:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
-                setPath(30000, GameEntity.ObjectType.onGround);
+                setPath(40000, GameEntity.ObjectType.onGround);
+                generateHealthBar(ObjectType.tank, 40);
                 break;
             case plane:
                 loadImage("GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
                 setPath(13000, ObjectType.inAir);
+                generateHealthBar(ObjectType.plane,5);
                 break;
         }
         this.getChildren().add(EnemyImage);
         ViewManager.mainPane.getChildren().add(this);
+    }
+
+    void generateHealthBar(ObjectType type, int health){
+        healthBar = new ProgressBar(health);
+        healthBar.setPrefSize(70,0.02);
+        healthBar.setStyle("-fx-accent: red;");
+        healthBar.setTranslateX(getPosX() + 30);
+        healthBar.setTranslateY(getPosY() + 55);
+        healthBar.setRotate(90);
+        this.getChildren().add(healthBar);
     }
 
     private void setPath(int speed, ObjectType type){

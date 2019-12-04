@@ -1,16 +1,30 @@
 package GameField.Entities.Tower;
 
 import GameField.Entities.GameEntity;
+import GameField.Entities.MovingObjects.Bullet.Bullet;
+import GameField.Entities.MovingObjects.Enemy.Enemy;
+import GameField.GameControl;
 import GameField.Grid;
 import GameField.ViewManager;
+import com.sun.scenario.animation.shared.AnimationAccessor;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
+
+import javax.swing.text.View;
+
+import java.sql.Time;
 
 import static GameField.ViewManager.mainPane;
 
-public class Tower implements GameEntity {
+public class Tower extends Pane implements GameEntity {
     protected ImageView TowerImage;
     public ObjectType currentType;
 
@@ -25,12 +39,16 @@ public class Tower implements GameEntity {
 
     Circle towerRange = new Circle();
 
+    public ObjectType getTowerType(){ return currentType; }
+
     public Tower(ObjectType type) {
         loadTowerImage(type);
         currentType = type;
         dragTower();
         towerRange.setRadius(shootRange);
         towerRange.setFill(Color.TRANSPARENT);
+        towerRange.setCenterX(2000);
+        towerRange.setCenterY(50);
         towerRange.setStroke(Color.RED);
         ViewManager.mainPane.getChildren().add(TowerImage);
         ViewManager.mainPane.getChildren().add(towerRange);
@@ -65,8 +83,9 @@ public class Tower implements GameEntity {
                 TowerImage.setY(140);
                 shootRange = 100;
                 break;
-
         }
+        this.getChildren().add(TowerImage);
+        mainPane.getChildren().add(this);
     }
 
     private void loadImage(String location) {
@@ -115,19 +134,29 @@ public class Tower implements GameEntity {
 
     }
 
+    void collisionHandle(){
+           Timeline collide = new Timeline(new KeyFrame(Duration.seconds(300), event -> {
+               for(Enemy enemy: GameControl.EnemyList){
+                 if(enemy.getBound().intersects(towerRange.getBoundsInParent())){
+                     mainPane.getChildren().add(new Bullet(getTowerType(),getPosX(), getPosY(), enemy.getPosX(), enemy.getPosY()));
+                 }
+               }
+           }));
+           collide.setCycleCount(Animation.INDEFINITE);
+           collide.play();
+    }
+
     public double getPosX() {
+        return TowerImage.getTranslateX();
+    }
+
+    public double getPosY() { return TowerImage.getTranslateY(); }
+
+    public double getW() {
         return 0;
     }
 
-    public double getPosY() {
-        return 0;
-    }
-
-    public double getWidth() {
-        return 0;
-    }
-
-    public double getHeight() {
+    public double getH() {
         return 0;
     }
 
