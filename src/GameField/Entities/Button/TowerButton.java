@@ -2,6 +2,7 @@ package GameField.Entities.Button;
 import GameField.Entities.GameEntity;
 import GameField.Entities.Tower.Tower;
 import GameField.GameControl;
+import GameField.Grid;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -48,18 +49,22 @@ public class TowerButton {
         heavyTower.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
 
         normalTower.setOnMouseClicked(event -> {
+            enableGrid();
             spawnNormalTower();
         });
 
         airTower.setOnMouseClicked(event -> {
+            enableGrid();
             spawnAirTower();
         });
 
         lightTower.setOnMouseClicked(event -> {
+            enableGrid();
             spawnLightTower();
         });
 
         heavyTower.setOnMouseClicked(event -> {
+            enableGrid();
             spawnHeavyTower();
         });
 
@@ -67,6 +72,14 @@ public class TowerButton {
         ViewManager.mainPane.getChildren().add(airTower);
         ViewManager.mainPane.getChildren().add(lightTower);
         ViewManager.mainPane.getChildren().add(heavyTower);
+    }
+
+    private void enableGrid() {
+        for (int i = 0; i < Grid.height; i++) {
+            for (int j = 0; j < Grid.width; j++) {
+                if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(true);
+            }
+        }
     }
 
     private void spawnNormalTower() {
