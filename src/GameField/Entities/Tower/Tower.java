@@ -123,10 +123,19 @@ public class Tower extends Pane implements GameEntity {
                 int j = (int)(event.getSceneX() / 90) * 90;
                 Grid.newGrid[i][j] = 0;
                  */
+                disableGrid();
                 dragAble = false;
+
             }
         });
+    }
 
+    private void disableGrid() {
+        for (int i = 0; i < Grid.height; i++) {
+            for (int j = 0; j < Grid.width; j++) {
+                if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(false);
+            }
+        }
     }
 
     void collisionHandle(){
