@@ -11,84 +11,74 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+
 import javafx.util.Duration;
 
 public class Bullet extends Pane implements GameEntity {
 
-    ImageView bullet;
+    private ImageView bulletImage;
+    private int speed;
 
-    public Bullet(ObjectType bulletType, double spawnX, double spawnY, double targetX, double targetY){
-            switch(bulletType){
+    public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY){
+            switch(towerType){
                 case lightTower: {
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
-                    }));
-                    timeline.setCycleCount(Animation.INDEFINITE);
-                    timeline.play();
+                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
+                    speed = 350;
                     break;
                 }
                 case heavyTower:{
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
-                    }));
-                    timeline.setCycleCount(Animation.INDEFINITE);
-                    timeline.play();
+                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
+                    speed = 450;
                     break;
                 }
                 case frozer:{
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
-                    }));
-                    timeline.setCycleCount(Animation.INDEFINITE);
-                    timeline.play();
+                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
+                    speed = 400;
                     break;
                 }
                 case missle:{
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                        loadImage("GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
-                    }));
-                    timeline.setCycleCount(Animation.INDEFINITE);
-                    timeline.play();
+                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
+                    speed = 300;
                     break;
                 }
             }
-            setPath(spawnX, spawnY, targetX, targetY);
-            this.getChildren().add(bullet);
+            this.getChildren().add(bulletImage);
+            setPath(e, speed, spawnX, spawnY, targetX, targetY);
+            ViewManager.mainPane.getChildren().add(this);
     }
 
     private void loadImage(String location){
-        bullet = new ImageView(new Image(location));
-        bullet.setPreserveRatio(true);
+        bulletImage = new ImageView(new Image(location));
+        bulletImage.setPreserveRatio(true);
         this.setTranslateX(170);
         this.setTranslateY(750);
     }
 
-    private void setPath(double spawnX, double spawnY, double targetX, double targetY){
+    private void setPath(Enemy e, int speed, double spawnX, double spawnY, double targetX, double targetY){
         Line line = new Line();
         line.setStartX(spawnX);       line.setEndX(targetX);
         line.setStartY(spawnY);       line.setEndY(targetY);
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(500));
+        pathTransition.setDuration(Duration.millis(300));
         pathTransition.setNode(this);
         pathTransition.setPath(line);
+        pathTransition.setCycleCount(1);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{
             ViewManager.mainPane.getChildren().remove(this);
-            bullet = null;
+            bulletImage = null;
+            e.subtractHealth(e.getHealth()-1);
         });
         pathTransition.play();
     }
 
     public double getPosX() {
-        return bullet.getTranslateX();
+        return this.getTranslateX();
     }
 
     public double getPosY() {
-        return bullet.getTranslateY();
+        return this.getTranslateY();
     }
 
     public double getW() {

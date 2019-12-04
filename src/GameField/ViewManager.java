@@ -2,10 +2,14 @@ package GameField;
 
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Bullet.Bullet;
+import GameField.Entities.Tower.Tower;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ViewManager extends VBox{
 
@@ -28,7 +32,7 @@ public class ViewManager extends VBox{
         GameControl.spawnTroop(5,3, 1);
         //GameControl.printMousePosition();
         //GameControl.mouseClicked();
-        //GameControl.printTroopX();
+        //GameControl.printTroopXY();
         GameControl.createTestButton();
     }
 

@@ -15,10 +15,7 @@ public interface GameEntity {
         launcher,
         lightTower,
         heavyTower,
-        lightBullet,
-         heavyBullet,
          missle,
-
     }
 
     double getPosX();

@@ -31,23 +31,21 @@ public class Tower extends Pane implements GameEntity {
     private double fireRate;
     private double damage;
     private boolean dragAble = true;
-    private double shootRange;
-
-    Circle towerRange = new Circle();
+    private boolean towerExist = false;
+    private double shootRange = 0;
+    private Circle towerRange;
 
     public ObjectType getTowerType(){ return currentType; }
 
     public Tower(ObjectType type) {
         loadTowerImage(type);
+        towerRange = new Circle(2000, 50, shootRange);
         currentType = type;
-        dragTower();
-        towerRange.setRadius(shootRange);
         towerRange.setFill(Color.TRANSPARENT);
-        towerRange.setCenterX(2000);
-        towerRange.setCenterY(50);
         towerRange.setStroke(Color.RED);
-        ViewManager.mainPane.getChildren().add(TowerImage);
-        ViewManager.mainPane.getChildren().add(towerRange);
+        dragTower();
+        this.getChildren().addAll(TowerImage,towerRange);
+        ViewManager.mainPane.getChildren().add(this);
     }
 
     private void loadTowerImage(ObjectType type) {
@@ -60,7 +58,7 @@ public class Tower extends Pane implements GameEntity {
                 break;
 
             case missle:
-                loadImage("file:src/GameField/Entities/Enemy/Resources/airTower.png");
+                loadImage("file:src/GameField/Entities/Tower/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
                 shootRange = 130;
@@ -80,8 +78,6 @@ public class Tower extends Pane implements GameEntity {
                 shootRange = 100;
                 break;
         }
-        this.getChildren().add(TowerImage);
-        mainPane.getChildren().add(this);
     }
 
     private void loadImage(String location) {
@@ -111,41 +107,46 @@ public class Tower extends Pane implements GameEntity {
             }
         });
 
-        mainPane.setOnMouseReleased(event -> {
+        mainPane.setOnMouseClicked(event -> {
             if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
                 TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
                 TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
                 towerRange.setCenterX(TowerImage.getX()+45);
                 towerRange.setCenterY(TowerImage.getY()+45);
-                towerRange.setVisible(false);
+                towerRange.setVisible(true);
                 /*
                 int i = (int)(event.getSceneY() / 90) * 90;
                 int j = (int)(event.getSceneX() / 90) * 90;
                 Grid.newGrid[i][j] = 0;
                  */
                 dragAble = false;
+                towerExist = true;
+                collisionHandle();
             }
         });
 
     }
 
+    private int lengthCaculate(Enemy e){
+        return (int)Math.sqrt(Math.pow(towerRange.getCenterX()-e.getPosX(),2) + Math.pow(towerRange.getCenterY()-e.getPosY(),2)); }
+
     void collisionHandle(){
-           Timeline collide = new Timeline(new KeyFrame(Duration.seconds(300), event -> {
-               for(Enemy enemy: GameControl.EnemyList){
-                 if(enemy.getBound().intersects(towerRange.getBoundsInParent())){
-                     mainPane.getChildren().add(new Bullet(getTowerType(),getPosX(), getPosY(), enemy.getPosX(), enemy.getPosY()));
-                 }
-               }
+           Timeline collide = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                    if(towerExist && !GameControl.EnemyList.isEmpty()) {
+                        for (int i=0; i<GameControl.EnemyList.size(); i++) {
+                            if (GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent())){
+                                new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX(), getPosY(), GameControl.EnemyList.get(i).getPosX(), GameControl.EnemyList.get(i).getPosY());
+                            }
+                        }
+                    }
            }));
            collide.setCycleCount(Animation.INDEFINITE);
            collide.play();
     }
 
-    public double getPosX() {
-        return TowerImage.getTranslateX();
-    }
+    public double getPosX() { return TowerImage.getX(); }
 
-    public double getPosY() { return TowerImage.getTranslateY(); }
+    public double getPosY() { return TowerImage.getY(); }
 
     public double getW() {
         return 0;

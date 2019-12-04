@@ -19,9 +19,10 @@ import java.io.File;
 public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
+    private ObjectType currentType;
     private boolean survive = false;
     private ProgressBar healthBar;
-    private int health;
+    private double health;
 
     MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
@@ -33,7 +34,11 @@ public class Enemy extends Pane implements GameEntity {
     LineTo line7 = new LineTo(980,190);
     LineTo line8 = new LineTo(1320,180);
 
+    public ObjectType getEnemyType(){ return currentType; }
+    public boolean checkEnemyImage(){ return EnemyImage==null; }
+
     public Enemy(ObjectType type) {
+        currentType = type;
         switch (type){
             case normalTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
@@ -56,18 +61,21 @@ public class Enemy extends Pane implements GameEntity {
                 generateHealthBar(ObjectType.plane,5);
                 break;
         }
-        this.getChildren().add(EnemyImage);
+        this.getChildren().addAll(EnemyImage);
         EnemyImage.setViewOrder(-1);
         ViewManager.mainPane.getChildren().add(this);
     }
 
-    void generateHealthBar(ObjectType type, int health){
+    public double getHealth(){ return health; }
+    public void subtractHealth(double health){ healthBar.setProgress(health); }
+
+    void generateHealthBar(ObjectType type, double health){
         healthBar = new ProgressBar(health);
-        healthBar.setPrefSize(70,20);
+        healthBar.setPrefSize(35,9);
         healthBar.setStyle("-fx-accent: red;");
         healthBar.setViewOrder(-2);
-        healthBar.setTranslateX(getPosX() + 30);
-        healthBar.setTranslateY(getPosY() + 55);
+        healthBar.setTranslateX(35);
+        healthBar.setTranslateY(59);
         healthBar.setRotate(90);
         this.getChildren().add(healthBar);
     }
@@ -114,22 +122,13 @@ public class Enemy extends Pane implements GameEntity {
         this.setTranslateY(750);
     }
 
-    public Bounds getBound() { return EnemyImage.getBoundsInParent(); }
+    public Bounds getBound() { return this.getBoundsInParent(); }
 
-    public double getPosX() {
-        return EnemyImage.getTranslateX();
-    }
+    public double getPosX() { return this.getTranslateX(); }
 
-    public double getPosY(){
-        return EnemyImage.getTranslateY();
-    }
+    public double getPosY(){ return this.getTranslateY(); }
 
-    public double getW() {
-        return 0;
-    }
+    public double getW() { return 0; }
 
-    public double getH() {
-        return 0;
-    }
-
+    public double getH() { return 0; }
 }

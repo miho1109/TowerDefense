@@ -15,11 +15,12 @@ import static GameField.ViewManager.mainPane;
 
 public class GameControl {
     private static int lives;
-
-    public static int getLives(){ return lives;}
-    public static void setLives(int ulives){ lives = ulives; }
     public static ArrayList<Enemy> EnemyList = new ArrayList<>();
     public static ArrayList<Tower> TowerList = new ArrayList<>();
+
+    public static int getLives(){ return lives;}
+
+    public static void setLives(int ulives){ lives = ulives; }
 
     public static void gameStart(){
         lives = 5;
@@ -84,7 +85,6 @@ public class GameControl {
             timeline.setCycleCount(1);
             timeline.play();
             timeline.setOnFinished(event -> {
-                System.out.println("FINISH");
                Timeline delayBFStart = new Timeline(new KeyFrame(Duration.seconds(20), event1 -> {
                }));
                delayBFStart.setCycleCount(1);
@@ -132,10 +132,10 @@ public class GameControl {
         }
     }
 
-    public static void printTroopX() {
+    public static void printTroopXY() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-            if (EnemyList.get(0) != null) {
-                System.out.println(EnemyList.get(0).getPosX());
+            if (!EnemyList.isEmpty()) {
+                System.out.println(EnemyList.get(0).getPosX() + " " +EnemyList.get(0).getPosY());
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
