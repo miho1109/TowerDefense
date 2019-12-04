@@ -13,10 +13,10 @@ public class TowerButton {
 
     public TowerButton() {
 
-        ImageView normalTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/frozer.png"));
-        ImageView airTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/airTower.png"));
-        ImageView lightTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/lightTower.png"));
-        ImageView heavyTowerIV = new ImageView(new Image("GameField/Entities/Tower/Resources/heavyTower.png"));
+        ImageView normalTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/frozer.png"));
+        ImageView airTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/airTower.png"));
+        ImageView lightTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/lightTower.png"));
+        ImageView heavyTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/heavyTower.png"));
 
         Button normalTower = new Button("", normalTowerIV);
         Button airTower = new Button("", airTowerIV);
@@ -67,7 +67,7 @@ public class TowerButton {
         ViewManager.mainPane.getChildren().add(airTower);
         ViewManager.mainPane.getChildren().add(lightTower);
         ViewManager.mainPane.getChildren().add(heavyTower);
-    };
+    }
 
     private void spawnNormalTower() {
         Tower temp = new Tower(GameEntity.ObjectType.frozer);

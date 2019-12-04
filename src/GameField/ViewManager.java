@@ -38,7 +38,7 @@ public class ViewManager extends VBox{
     }
 
     private void createBackGround(){
-        Image backgroundImage = new Image("GameField/resources/background3.png", HEIGHT, WIDTH, true, true);
+        Image backgroundImage = new Image("file:src/GameField/resources/background3.png", HEIGHT, WIDTH, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(background));
     }

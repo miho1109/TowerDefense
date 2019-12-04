@@ -14,6 +14,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+import java.io.File;
+
 public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
@@ -34,34 +36,36 @@ public class Enemy extends Pane implements GameEntity {
     public Enemy(ObjectType type) {
         switch (type){
             case normalTroop:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
+                loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
                 setPath(20000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.normalTroop, 10);
                 break;
             case eliteTroop:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
+                loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
                 setPath(15000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.eliteTroop, 15);
                 break;
             case tank:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
+                loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
                 setPath(40000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.tank, 40);
                 break;
             case plane:
-                loadImage("GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
+                loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
                 setPath(13000, ObjectType.inAir);
                 generateHealthBar(ObjectType.plane,5);
                 break;
         }
         this.getChildren().add(EnemyImage);
+        EnemyImage.setViewOrder(-1);
         ViewManager.mainPane.getChildren().add(this);
     }
 
     void generateHealthBar(ObjectType type, int health){
         healthBar = new ProgressBar(health);
-        healthBar.setPrefSize(70,0.02);
+        healthBar.setPrefSize(70,20);
         healthBar.setStyle("-fx-accent: red;");
+        healthBar.setViewOrder(-2);
         healthBar.setTranslateX(getPosX() + 30);
         healthBar.setTranslateY(getPosY() + 55);
         healthBar.setRotate(90);
@@ -103,6 +107,7 @@ public class Enemy extends Pane implements GameEntity {
     }
 
     private void loadImage(String location){
+        File test = new File(location);
         EnemyImage = new ImageView(new Image(location));
         EnemyImage.setPreserveRatio(true);
         this.setTranslateX(170);

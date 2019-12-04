@@ -6,7 +6,6 @@ import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.GameControl;
 import GameField.Grid;
 import GameField.ViewManager;
-import com.sun.scenario.animation.shared.AnimationAccessor;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,9 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-import javax.swing.text.View;
-
-import java.sql.Time;
 
 import static GameField.ViewManager.mainPane;
 
@@ -57,28 +53,28 @@ public class Tower extends Pane implements GameEntity {
     private void loadTowerImage(ObjectType type) {
         switch (type) {
             case frozer:
-                loadImage("GameField/Entities/Tower/Resources/frozer.png");
+                loadImage("file:src/GameField/Entities/Tower/Resources/frozer.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(0);
                 shootRange = 90;
                 break;
 
             case missle:
-                loadImage("GameField/Entities/Tower/Resources/airTower.png");
+                loadImage("file:src/GameField/Entities/Enemy/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
                 shootRange = 130;
                 break;
 
             case lightTower:
-                loadImage("GameField/Entities/Tower/Resources/lightTower.png");
+                loadImage("file:src/GameField/Entities/Tower/Resources/lightTower.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(140);
                 shootRange = 170;
                 break;
 
             case heavyTower:
-                loadImage("GameField/Entities/Tower/Resources/heavyTower.png");
+                loadImage("file:src/GameField/Entities/Tower/Resources/heavyTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(140);
                 shootRange = 100;
@@ -100,8 +96,7 @@ public class Tower extends Pane implements GameEntity {
     private boolean spawnAble(double x, double y) {
         int i = (int) y / 90;
         int j = (int) x / 90;
-        if (Grid.newGrid[i][j] == 1) return true;
-        else return false;
+        return Grid.newGrid[i][j] == 1;
     }
 
     private void dragTower() {
