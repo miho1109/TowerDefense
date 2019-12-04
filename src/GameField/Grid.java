@@ -11,7 +11,6 @@ public class Grid extends VBox {
     public static int width = 15;
     private static int size = 90;
     public static Rectangle [][]grid = new Rectangle[height][width];
-    //public static int [][]newGrid = new int[height][width];
 
     public static int [][]newGrid = {   {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
                                         {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -23,21 +22,7 @@ public class Grid extends VBox {
                                         {1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     } ;
 
-    private double x  = 0;
-    private double y = 0;
-
     public Grid() {
-        /*
-        int[][] newGrid = { {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                            {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                            {1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
-                            {1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1},
-                            {1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1},
-                            {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1},
-                            {1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                            {1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        } ;
-        */
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -49,15 +34,10 @@ public class Grid extends VBox {
                     grid[i][j].setHeight(size);
                     grid[i][j].setStroke(Color.RED);
                     grid[i][j].setFill(Color.TRANSPARENT);
-                    grid[i][j].setVisible(true);
-                    //x += size;
-
+                    grid[i][j].setVisible(false);
                     ViewManager.mainPane.getChildren().add(grid[i][j]);
                 }
             }
-            //x = 0;
-            //y += size;
         }
-
     }
 }
