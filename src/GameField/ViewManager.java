@@ -25,15 +25,17 @@ public class ViewManager extends VBox{
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
-        //mainStage.setResizable(false);
+        mainStage.setResizable(false);
         createBackGround();
-        GameControl.drawGrid();
-        //GameControl.gameStart();
-        GameControl.spawnTroop(5,3, 1);
+        GameControl.gameStart();
+//        mainPane.setOnMouseMoved(event -> {
+//           event.
+//        });
+        //PlayerIndex.creatLables();
         //GameControl.printMousePosition();
         //GameControl.mouseClicked();
-        GameControl.printTroopXY();
-        GameControl.createTestButton();
+        //GameControl.printTroopXY();
+        //GameControl.createTestButton();
     }
 
 

@@ -2,6 +2,7 @@ package GameField.Entities.MovingObjects.Enemy;
 
 import GameField.Entities.GameEntity;
 import GameField.GameControl;
+import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -27,6 +28,7 @@ public class Enemy extends Pane implements GameEntity {
     private boolean survive = false;
     private ProgressBar healthBar;
     private double health;
+    private int earn =0;
 
     MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
@@ -40,29 +42,35 @@ public class Enemy extends Pane implements GameEntity {
 
     public ObjectType getEnemyType(){ return currentType; }
     public boolean checkEnemyImage(){ return EnemyImage==null; }
+    public double getHealth(){ return healthBar.getProgress(); }
+    public void subtractHealth(double health){ healthBar.setProgress(health); }
 
     public Enemy(ObjectType type) {
         currentType = type;
         switch (type){
             case normalTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
-                setPath(20000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.normalTroop, 1);
+                setPath(20000, GameEntity.ObjectType.onGround);
+                earn = 2;
                 break;
             case eliteTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
-                setPath(15000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.eliteTroop, 1);
+                setPath(15000, GameEntity.ObjectType.onGround);
+                earn = 4;
                 break;
             case tank:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
-                setPath(40000, GameEntity.ObjectType.onGround);
                 generateHealthBar(ObjectType.tank, 1);
+                setPath(40000, GameEntity.ObjectType.onGround);
+                earn = 7;
                 break;
             case plane:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
-                setPath(13000, ObjectType.inAir);
                 generateHealthBar(ObjectType.plane,1);
+                setPath(13000, ObjectType.inAir);
+                earn = 5;
                 break;
         }
         this.getChildren().addAll(EnemyImage);
@@ -71,15 +79,12 @@ public class Enemy extends Pane implements GameEntity {
         ViewManager.mainPane.getChildren().add(this);
     }
 
-    public double getHealth(){ return healthBar.getProgress(); }
-    public void subtractHealth(double health){ healthBar.setProgress(health); }
 
     void generateHealthBar(ObjectType type, double health){
         this.health = health;
         healthBar = new ProgressBar(health);
         healthBar.setPrefSize(35,9);
         healthBar.setStyle("-fx-accent: red;");
-
         healthBar.setViewOrder(-2);
         healthBar.setTranslateX(35);
         healthBar.setTranslateY(59);
@@ -106,7 +111,9 @@ public class Enemy extends Pane implements GameEntity {
             pathTransition.setAutoReverse(false);
             pathTransition.setOnFinished(actonEvent -> {
                 terminated();
-            });
+                PlayerIndex.setLives(PlayerIndex.getLives() - 1);
+                PlayerIndex.updatePlayerIndex();
+                });
             pathTransition.play();
     }
 
@@ -116,11 +123,13 @@ public class Enemy extends Pane implements GameEntity {
     }
 
     private void terminator(){
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),event ->{
-            if(healthBar.getProgress() <= 0){
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100),event ->{
+            if(healthBar.getProgress() <= 0) {
                 terminated();
+                PlayerIndex.setCoin(PlayerIndex.getCoin() + earn);
+                //PlayerIndex.updatePlayerIndex();
             }
-        }));
+        }));timeline.stop();
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }

@@ -14,30 +14,24 @@ import java.util.ArrayList;
 import static GameField.ViewManager.mainPane;
 
 public class GameControl {
-    private static int lives;
+    private static int gameLevel;
     public static ArrayList<Enemy> EnemyList = new ArrayList<>();
     public static ArrayList<Tower> TowerList = new ArrayList<>();
 
-    public static int getLives(){ return lives;}
-
-    public static void setLives(int ulives){ lives = ulives; }
+    public static int getGameLevel(){ return gameLevel; }
 
     public static void gameStart(){
-        lives = 5;
-        while (lives > 0 ) {
-            spawnTroop(5,5,1);
-            for(Enemy e: EnemyList){
-                if(e.checkTroopSurvive()){
-                    lives--;
-                }
-            }
-        }
-        System.out.println("YOU LOSE !");
+        drawGrid();
+        spawnTroop(5, 3, 1);
+        createTestButton();
+        PlayerIndex.creatLables();
+        PlayerIndex.updatePlayerIndex();
     }
 
-    public static void spawnTroop(int lives, int quantities, int level){
+    public static void spawnTroop(int lives, int quantities, int lv){
+            gameLevel = lv;
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
-                switch (level){
+                switch (lv){
                     case 1:{
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         break;
@@ -90,7 +84,7 @@ public class GameControl {
                delayBFStart.setCycleCount(1);
                delayBFStart.play();
                delayBFStart.setOnFinished(event1 -> {
-                   spawnTroop(5, quantities + 1, level + 1);
+                   spawnTroop(5, quantities + 1, gameLevel+ 1);
                });
             });
     }
