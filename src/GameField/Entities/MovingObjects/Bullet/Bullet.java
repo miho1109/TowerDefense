@@ -3,10 +3,7 @@ package GameField.Entities.MovingObjects.Bullet;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.ViewManager;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,27 +15,32 @@ public class Bullet extends Pane implements GameEntity {
 
     private ImageView bulletImage;
     private int speed;
+    private double damage;
 
     public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY){
             switch(towerType){
                 case lightTower: {
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
-                    speed = 350;
+                    speed = 300;
+                    damage = 0.1;
                     break;
                 }
                 case heavyTower:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
-                    speed = 450;
+                    speed = 350;
+                    damage = 0.2;
                     break;
                 }
                 case frozer:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
-                    speed = 400;
+                    speed = 300;
+                    damage = 2;
                     break;
                 }
                 case missle:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
-                    speed = 300;
+                    speed = 350;
+                    damage = 0.5;
                     break;
                 }
             }
@@ -68,7 +70,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOnFinished(actonEvent ->{
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
-            e.subtractHealth(e.getHealth()-0.1);
+            e.subtractHealth(e.getHealth()-damage);
         });
         pathTransition.play();
     }

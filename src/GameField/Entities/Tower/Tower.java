@@ -27,8 +27,7 @@ public class Tower extends Pane implements GameEntity {
 
     private ImageView TowerImage;
     public ObjectType currentType;
-    private double fireRate;
-    private double damage;
+    private int fireRate;
     private boolean dragAble = true;
     private boolean towerExist = false;
     private double shootRange = 0;
@@ -56,6 +55,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setX(1300);
                 TowerImage.setY(0);
                 shootRange = 90;
+                fireRate = 250;
                 break;
 
             case missle:
@@ -63,6 +63,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
                 shootRange = 130;
+                fireRate = 500;
                 break;
 
             case lightTower:
@@ -70,6 +71,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setX(1300);
                 TowerImage.setY(140);
                 shootRange = 170;
+                fireRate = 200;
                 break;
 
             case heavyTower:
@@ -77,6 +79,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setX(1400);
                 TowerImage.setY(140);
                 shootRange = 100;
+                fireRate = 300;
                 break;
         }
     }
@@ -115,15 +118,10 @@ public class Tower extends Pane implements GameEntity {
                 towerRange.setCenterX(TowerImage.getX()+45);
                 towerRange.setCenterY(TowerImage.getY()+45);
                 towerRange.setVisible(false);
-                /*
-                int i = (int)(event.getSceneY() / 90) * 90;
-                int j = (int)(event.getSceneX() / 90) * 90;
-                Grid.newGrid[i][j] = 0;
-                 */
                 dragAble = false;
                 towerExist = true;
                 TowerButton.disableGrid();
-                collisionHandle();
+                collisionHandle(fireRate);
             }
         });
 
@@ -147,8 +145,8 @@ public class Tower extends Pane implements GameEntity {
         angle = nangle;
     }
 
-    private void collisionHandle(){
-           Timeline collide = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+    private void collisionHandle(int fireRate){
+           Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
                     if(towerExist && !GameControl.EnemyList.isEmpty()) {
                         for (int i=0; i<GameControl.EnemyList.size(); i++) {
                             if (GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
