@@ -25,7 +25,7 @@ public class GameControl {
     public static void gameStart(){
         drawGrid();
         spawnTroop(5, 3, 1);
-        createTestButton();
+        createTowerButton();
         PlayerIndex.creatLables();
         PlayerIndex.updatePlayerIndex();
     }

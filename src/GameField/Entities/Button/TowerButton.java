@@ -99,7 +99,7 @@ public class TowerButton {
     }
 
     private void spawnAirTower() {
-        Tower temp = new Tower(GameEntity.ObjectType.missle);
+        Tower temp = new Tower(GameEntity.ObjectType.launcher);
         GameControl.TowerList.add(temp);
     }
 
