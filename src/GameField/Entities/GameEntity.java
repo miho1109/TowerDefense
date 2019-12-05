@@ -11,10 +11,10 @@ public interface GameEntity {
          eliteTroop,
          tank,
          plane,
-        frozer,
-        launcher,
-        lightTower,
-        heavyTower,
+         frozer,
+         launcher,
+         lightTower,
+         heavyTower,
          missle,
     }
 
