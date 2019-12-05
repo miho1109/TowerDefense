@@ -13,9 +13,11 @@ public class SellButton {
         ViewManager.mainPane.getChildren().add(sellButton);
     }
 
-    private void setLocation() {
-        sellButton.setLayoutX(1300);
+    public void setLocation() {
+        sellButton.setLayoutX(1400);
         sellButton.setLayoutY(300);
+        sellButton.setPrefSize(120,60);
+        sellButton.setStyle("-fx-border-width: 3;\n" + "-fx-border-color: black;\n" + "-fx-background-color: transparent;");
     }
 
     private void setMouse() {
