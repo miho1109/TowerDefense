@@ -85,14 +85,6 @@ public class TowerButton {
         }
     }
 
-    public static void disableGrid(){
-        for (int i = 0; i < Grid.height; i++) {
-            for (int j = 0; j < Grid.width; j++) {
-                if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(false);
-            }
-        }
-    }
-
     private void spawnNormalTower() {
         Tower temp = new Tower(GameEntity.ObjectType.frozer);
         GameControl.TowerList.add(temp);
