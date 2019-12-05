@@ -135,7 +135,9 @@ public class Tower extends Pane implements GameEntity {
                     if(towerExist && !GameControl.EnemyList.isEmpty()) {
                         for (int i=0; i<GameControl.EnemyList.size(); i++) {
                             if (GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent())){
-                                new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX(), getPosY(), GameControl.EnemyList.get(i).getPosX(), GameControl.EnemyList.get(i).getPosY());
+                                new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX(), getPosY(),
+                                        GameControl.EnemyList.get(i).getPosX()+GameControl.EnemyList.get(i).getW()/2, GameControl.EnemyList.get(i).getPosY()+GameControl.EnemyList.get(i).getH()/2);
+                                break;
                             }
                         }
                     }

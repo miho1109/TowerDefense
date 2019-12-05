@@ -68,7 +68,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOnFinished(actonEvent ->{
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
-            e.subtractHealth(e.getHealth()-1);
+            e.subtractHealth(e.getHealth()-0.1);
         });
         pathTransition.play();
     }

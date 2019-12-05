@@ -3,7 +3,10 @@ package GameField.Entities.MovingObjects.Enemy;
 import GameField.Entities.GameEntity;
 import GameField.GameControl;
 import GameField.ViewManager;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -15,6 +18,7 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.security.Key;
 
 public class Enemy extends Pane implements GameEntity {
 
@@ -43,36 +47,39 @@ public class Enemy extends Pane implements GameEntity {
             case normalTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/normalTroop.png");
                 setPath(20000, GameEntity.ObjectType.onGround);
-                generateHealthBar(ObjectType.normalTroop, 10);
+                generateHealthBar(ObjectType.normalTroop, 1);
                 break;
             case eliteTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
                 setPath(15000, GameEntity.ObjectType.onGround);
-                generateHealthBar(ObjectType.eliteTroop, 15);
+                generateHealthBar(ObjectType.eliteTroop, 1);
                 break;
             case tank:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
                 setPath(40000, GameEntity.ObjectType.onGround);
-                generateHealthBar(ObjectType.tank, 40);
+                generateHealthBar(ObjectType.tank, 1);
                 break;
             case plane:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
                 setPath(13000, ObjectType.inAir);
-                generateHealthBar(ObjectType.plane,5);
+                generateHealthBar(ObjectType.plane,1);
                 break;
         }
         this.getChildren().addAll(EnemyImage);
         EnemyImage.setViewOrder(-1);
+        terminator();
         ViewManager.mainPane.getChildren().add(this);
     }
 
-    public double getHealth(){ return health; }
+    public double getHealth(){ return healthBar.getProgress(); }
     public void subtractHealth(double health){ healthBar.setProgress(health); }
 
     void generateHealthBar(ObjectType type, double health){
+        this.health = health;
         healthBar = new ProgressBar(health);
         healthBar.setPrefSize(35,9);
         healthBar.setStyle("-fx-accent: red;");
+
         healthBar.setViewOrder(-2);
         healthBar.setTranslateX(35);
         healthBar.setTranslateY(59);
@@ -106,8 +113,16 @@ public class Enemy extends Pane implements GameEntity {
     private void terminated(){
         ViewManager.mainPane.getChildren().remove(this);
         EnemyImage = null;
-        GameControl.setLives(GameControl.getLives()-1);
-        this.survive = true;
+    }
+
+    private void terminator(){
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),event ->{
+            if(healthBar.getProgress() <= 0){
+                terminated();
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     public boolean checkTroopSurvive(){
@@ -128,7 +143,7 @@ public class Enemy extends Pane implements GameEntity {
 
     public double getPosY(){ return this.getTranslateY(); }
 
-    public double getW() { return 0; }
+    public double getW() { return this.getWidth(); }
 
-    public double getH() { return 0; }
+    public double getH() { return this.getHeight(); }
 }
