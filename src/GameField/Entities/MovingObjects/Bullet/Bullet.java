@@ -37,7 +37,7 @@ public class Bullet extends Pane implements GameEntity {
                     damage = 2;
                     break;
                 }
-                case missle:{
+                case launcher:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
                     speed = 350;
                     damage = 0.5;

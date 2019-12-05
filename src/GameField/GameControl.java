@@ -1,6 +1,8 @@
 package GameField;
 
+import GameField.Entities.Button.SellButton;
 import GameField.Entities.Button.TowerButton;
+import GameField.Entities.Button.UpgradeButton;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.Entities.Tower.Tower;
@@ -147,8 +149,10 @@ public class GameControl {
         Grid grid = new Grid();
     }
 
-    public static void createTestButton() {
+    public static void createTowerButton() {
         TowerButton TB = new TowerButton();
+        SellButton SB = new SellButton();
+        //UpgradeButton UB = new UpgradeButton();
     }
 
 }
