@@ -67,10 +67,10 @@ public class TowerButton {
             enableGrid();
             spawnHeavyTower();
         });
-        normalTower.setViewOrder(-2);
-        airTower.setViewOrder(-2);
-        lightTower.setViewOrder(-2);
-        heavyTower.setViewOrder(-2);
+        normalTower.setViewOrder(-3);
+        airTower.setViewOrder(-3);
+        lightTower.setViewOrder(-3);
+        heavyTower.setViewOrder(-3);
         ViewManager.mainPane.getChildren().add(normalTower);
         ViewManager.mainPane.getChildren().add(airTower);
         ViewManager.mainPane.getChildren().add(lightTower);
@@ -81,6 +81,14 @@ public class TowerButton {
         for (int i = 0; i < Grid.height; i++) {
             for (int j = 0; j < Grid.width; j++) {
                 if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(true);
+            }
+        }
+    }
+
+    public static void disableGrid() {
+        for (int i = 0; i < Grid.height; i++) {
+            for (int j = 0; j < Grid.width; j++) {
+                if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(false);
             }
         }
     }

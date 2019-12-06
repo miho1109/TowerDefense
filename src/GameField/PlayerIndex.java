@@ -23,6 +23,11 @@ public class PlayerIndex {
     public static int getScore() { return score; }
 
 
+    public PlayerIndex(){
+        creatLables();
+        updatePlayerIndex();
+    }
+
     public static void creatLables(){
         gameLevel = new Text(":" + " " + Integer.toString(GameControl.getGameLevel()));
         playerLives = new Text(":" + " " + Integer.toString(getLives()));

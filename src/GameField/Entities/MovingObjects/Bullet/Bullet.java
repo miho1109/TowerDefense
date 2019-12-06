@@ -44,6 +44,7 @@ public class Bullet extends Pane implements GameEntity {
                     break;
                 }
             }
+            bulletImage.setViewOrder(2);
             this.getChildren().add(bulletImage);
             setPath(e, speed, spawnX, spawnY, targetX, targetY);
             ViewManager.mainPane.getChildren().add(this);
@@ -70,7 +71,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOnFinished(actonEvent ->{
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
-            e.subtractHealth(e.getHealth()-damage);
+            if(e != null) e.subtractHealth(e.getHealth()-damage);
         });
         pathTransition.play();
     }

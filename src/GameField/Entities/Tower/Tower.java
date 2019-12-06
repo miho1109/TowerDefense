@@ -28,6 +28,7 @@ public class Tower extends Pane implements GameEntity {
     private ImageView TowerImage;
     public ObjectType currentType;
     private int fireRate;
+    public boolean isSelected = true;
     private boolean dragAble = true;
     private boolean towerExist = false;
     private double shootRange = 0;
@@ -46,6 +47,7 @@ public class Tower extends Pane implements GameEntity {
         towerRange.setViewOrder(-1);
         this.getChildren().addAll(TowerImage,towerRange);
         ViewManager.mainPane.getChildren().add(this);
+        //chooseTower();
     }
 
     private void loadTowerImage(ObjectType type) {
@@ -58,7 +60,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 250;
                 break;
 
-            case missle:
+            case launcher:
                 loadImage("file:src/GameField/Entities/Tower/Resources/airTower.png");
                 TowerImage.setX(1400);
                 TowerImage.setY(0);
@@ -82,14 +84,15 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 300;
                 break;
         }
+        this.setViewOrder(-2);
     }
 
     private void loadImage(String location) {
         TowerImage = new ImageView(new Image(location));
     }
 
-    public void clearImage() {
-        ViewManager.mainPane.getChildren().remove(TowerImage);
+    public void clearTower() {
+        ViewManager.mainPane.getChildren().remove(this);
         TowerImage = null;
     }
 
@@ -97,6 +100,15 @@ public class Tower extends Pane implements GameEntity {
         int i = (int) y / 90;
         int j = (int) x / 90;
         return Grid.newGrid[i][j] == 1;
+    }
+
+    private void chooseTower() {
+        TowerImage.setOnMouseClicked(event -> {
+            isSelected = true;
+        });
+        mainPane.setOnMouseClicked(event -> {
+            //isSelected = false;
+        });
     }
 
     private void dragTower() {

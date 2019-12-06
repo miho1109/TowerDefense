@@ -26,8 +26,7 @@ public class GameControl {
         drawGrid();
         spawnTroop(5, 3, 1);
         createTowerButton();
-        PlayerIndex.creatLables();
-        PlayerIndex.updatePlayerIndex();
+        new PlayerIndex();
     }
 
     public static void spawnTroop(int lives, int quantities, int lv){
@@ -152,7 +151,7 @@ public class GameControl {
     public static void createTowerButton() {
         TowerButton TB = new TowerButton();
         SellButton SB = new SellButton();
-        //UpgradeButton UB = new UpgradeButton();
+        UpgradeButton UB = new UpgradeButton();
     }
 
 }

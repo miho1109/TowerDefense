@@ -42,7 +42,8 @@ public class Enemy extends Pane implements GameEntity {
 
     public ObjectType getEnemyType(){ return currentType; }
     public boolean checkEnemyImage(){ return EnemyImage==null; }
-    public double getHealth(){ return healthBar.getProgress(); }
+    public double getHealth(){ if(healthBar != null) {return healthBar.getProgress();}
+    return 0;}
     public void subtractHealth(double health){ healthBar.setProgress(health); }
 
     public Enemy(ObjectType type) {
@@ -120,11 +121,12 @@ public class Enemy extends Pane implements GameEntity {
     private void terminated(){
         ViewManager.mainPane.getChildren().remove(this);
         EnemyImage = null;
+        healthBar = null;
     }
 
     private void terminator(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100),event ->{
-            if(healthBar.getProgress() <= 0) {
+            if(healthBar != null && healthBar.getProgress() <= 0) {
                 terminated();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() + earn);
                 //PlayerIndex.updatePlayerIndex();
