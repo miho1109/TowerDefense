@@ -46,7 +46,7 @@ public class Tower extends Pane implements GameEntity {
         towerRange.setFill(Color.TRANSPARENT);
         towerRange.setStroke(Color.RED);
         dragTower();
-        towerRange.setViewOrder(-1);
+        towerRange.setViewOrder(1);
         this.getChildren().addAll(TowerImage,towerRange);
         ViewManager.mainPane.getChildren().add(this);
         chooseTower();
@@ -95,12 +95,12 @@ public class Tower extends Pane implements GameEntity {
     }
 
     public void clearTower() {
+        //int i = (int) TowerImage.getY() / 90;
+        //int j = (int) TowerImage.getX() / 90;
+        //Grid.newGrid[i][j] = 1;
         ViewManager.mainPane.getChildren().remove(this);
-        int i = (int) TowerImage.getY() / 90;
-        int j = (int) TowerImage.getX() / 90;
-        Grid.newGrid[i][j] = 1;
         TowerImage = null;
-        //towerRange = null;
+        towerRange = null;
     }
 
     private boolean spawnAble(double x, double y) {
@@ -179,7 +179,7 @@ public class Tower extends Pane implements GameEntity {
            Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
                     if(towerExist && !GameControl.EnemyList.isEmpty()) {
                         for (int i=0; i<GameControl.EnemyList.size(); i++) {
-                            if (GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
+                            if (towerRange != null && GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
                                 rotateTower(GameControl.EnemyList.get(i));
                                 new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX() + 45, getPosY() + 45,
                                         GameControl.EnemyList.get(i).getPosX()+GameControl.EnemyList.get(i).getW()/2,
