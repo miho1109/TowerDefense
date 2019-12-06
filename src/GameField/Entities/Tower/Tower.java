@@ -13,6 +13,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -46,9 +47,12 @@ public class Tower extends Pane implements GameEntity {
         towerRange.setFill(Color.TRANSPARENT);
         towerRange.setStroke(Color.RED);
         dragTower();
-        towerRange.setViewOrder(1);
-        this.getChildren().addAll(TowerImage,towerRange);
-        ViewManager.mainPane.getChildren().add(this);
+        towerRange.setViewOrder(-1);
+        this.getChildren().addAll(TowerImage, towerRange);
+
+        ViewManager.mainPane.getChildren().add(towerRange);
+        ViewManager.mainPane.getChildren().add(TowerImage);
+        //ViewManager.mainPane.getChildren().add(this);
         chooseTower();
         resetStats();
     }
@@ -87,7 +91,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 300;
                 break;
         }
-        this.setViewOrder(-2);
+        TowerImage.setViewOrder(-2);
     }
 
     private void loadImage(String location) {
@@ -95,10 +99,12 @@ public class Tower extends Pane implements GameEntity {
     }
 
     public void clearTower() {
-        //int i = (int) TowerImage.getY() / 90;
-        //int j = (int) TowerImage.getX() / 90;
-        //Grid.newGrid[i][j] = 1;
-        ViewManager.mainPane.getChildren().remove(this);
+        int i = (int) TowerImage.getY() / 90;
+        int j = (int) TowerImage.getX() / 90;
+        Grid.newGrid[i][j] = 1;
+        ViewManager.mainPane.getChildren().remove(TowerImage);
+        ViewManager.mainPane.getChildren().remove(towerRange);
+        //ViewManager.mainPane.getChildren().remove(this);
         TowerImage = null;
         towerRange = null;
     }
@@ -114,8 +120,11 @@ public class Tower extends Pane implements GameEntity {
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                 GameControl.TowerList.get(i).isSelected = false;
             }
-            this.isSelected = true;
+            isSelected = true;
         });
+
+        TowerImage.setOnMouseEntered(event -> TowerImage.setEffect(new Glow()));
+        TowerImage.setOnMouseExited(event -> TowerImage.setEffect(null));
     }
 
     private void resetStats() {
@@ -136,7 +145,7 @@ public class Tower extends Pane implements GameEntity {
             }
         });
 
-        mainPane.setOnMouseClicked(event -> {
+        TowerImage.setOnMouseClicked(event -> {
             if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
                 int i = ((int) (event.getSceneX() / 90) * 90);
                 int j = ((int) (event.getSceneY() / 90) * 90);
@@ -176,21 +185,21 @@ public class Tower extends Pane implements GameEntity {
     }
 
     private void collisionHandle(int fireRate){
-           Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
-                    if(towerExist && !GameControl.EnemyList.isEmpty()) {
-                        for (int i=0; i<GameControl.EnemyList.size(); i++) {
-                            if (towerRange != null && GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
-                                rotateTower(GameControl.EnemyList.get(i));
-                                new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX() + 45, getPosY() + 45,
-                                        GameControl.EnemyList.get(i).getPosX()+GameControl.EnemyList.get(i).getW()/2,
-                                        GameControl.EnemyList.get(i).getPosY()+GameControl.EnemyList.get(i).getH()/2);
-                                break;
-                            }
-                        }
+        Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
+            if(towerExist && !GameControl.EnemyList.isEmpty()) {
+                for (int i=0; i<GameControl.EnemyList.size(); i++) {
+                    if (towerRange != null && GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
+                        rotateTower(GameControl.EnemyList.get(i));
+                        new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX() + 45, getPosY() + 45,
+                                GameControl.EnemyList.get(i).getPosX()+GameControl.EnemyList.get(i).getW()/2,
+                                GameControl.EnemyList.get(i).getPosY()+GameControl.EnemyList.get(i).getH()/2);
+                        break;
                     }
-           }));
-           collide.setCycleCount(Animation.INDEFINITE);
-           collide.play();
+                }
+            }
+        }));
+        collide.setCycleCount(Animation.INDEFINITE);
+        collide.play();
     }
 
     public double getPosX() { return TowerImage.getX(); }
