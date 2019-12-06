@@ -28,12 +28,14 @@ public class Tower extends Pane implements GameEntity {
     private ImageView TowerImage;
     public ObjectType currentType;
     private int fireRate;
-    public boolean isSelected = true;
     private boolean dragAble = true;
     private boolean towerExist = false;
+    public static boolean spawnedTower = false;
     private double shootRange = 0;
     private Circle towerRange;
     private double angle = 0 ;
+    public boolean isSelected = false;
+    private boolean placedTower = false;
 
     public ObjectType getTowerType(){ return currentType; }
 
@@ -47,7 +49,8 @@ public class Tower extends Pane implements GameEntity {
         towerRange.setViewOrder(-1);
         this.getChildren().addAll(TowerImage,towerRange);
         ViewManager.mainPane.getChildren().add(this);
-        //chooseTower();
+        chooseTower();
+        resetStats();
     }
 
     private void loadTowerImage(ObjectType type) {
@@ -93,7 +96,11 @@ public class Tower extends Pane implements GameEntity {
 
     public void clearTower() {
         ViewManager.mainPane.getChildren().remove(this);
+        int i = (int) TowerImage.getY() / 90;
+        int j = (int) TowerImage.getX() / 90;
+        Grid.newGrid[i][j] = 1;
         TowerImage = null;
+        //towerRange = null;
     }
 
     private boolean spawnAble(double x, double y) {
@@ -103,12 +110,18 @@ public class Tower extends Pane implements GameEntity {
     }
 
     private void chooseTower() {
-        TowerImage.setOnMouseClicked(event -> {
-            isSelected = true;
+        TowerImage.setOnMouseReleased(event -> {
+            for(int i = 0; i < GameControl.TowerList.size(); i++) {
+                GameControl.TowerList.get(i).isSelected = false;
+            }
+            this.isSelected = true;
         });
-        mainPane.setOnMouseClicked(event -> {
-            //isSelected = false;
-        });
+    }
+
+    private void resetStats() {
+        for (int i = 1; i < GameControl.TowerList.size(); i++) {
+            GameControl.TowerList.get(i).isSelected = false;
+        }
     }
 
     private void dragTower() {
@@ -125,14 +138,19 @@ public class Tower extends Pane implements GameEntity {
 
         mainPane.setOnMouseClicked(event -> {
             if ((spawnAble(event.getSceneX(), event.getSceneY())) && (dragAble)) {
-                TowerImage.setX(((int) (event.getSceneX() / 90) * 90));
-                TowerImage.setY(((int) (event.getSceneY() / 90) * 90));
+                int i = ((int) (event.getSceneX() / 90) * 90);
+                int j = ((int) (event.getSceneY() / 90) * 90);
+                TowerImage.setX(i);
+                TowerImage.setY(j);
                 towerRange.setCenterX(TowerImage.getX()+45);
                 towerRange.setCenterY(TowerImage.getY()+45);
                 towerRange.setVisible(false);
                 dragAble = false;
+                spawnedTower = false;
                 towerExist = true;
+                placedTower = true;
                 TowerButton.disableGrid();
+                Grid.newGrid[j / 90][i / 90] = 0;
                 collisionHandle(fireRate);
             }
         });

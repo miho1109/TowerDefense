@@ -49,23 +49,35 @@ public class TowerButton {
         heavyTower.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
 
         normalTower.setOnMouseClicked(event -> {
-            enableGrid();
-            spawnNormalTower();
+            if (!SpawnedTower()) {
+                Tower.spawnedTower = true;
+                enableGrid();
+                spawnNormalTower();
+            }
         });
 
         airTower.setOnMouseClicked(event -> {
-            enableGrid();
-            spawnAirTower();
+            if (!SpawnedTower()) {
+                Tower.spawnedTower = true;
+                enableGrid();
+                spawnAirTower();
+            }
         });
 
         lightTower.setOnMouseClicked(event -> {
-            enableGrid();
-            spawnLightTower();
+            if (!SpawnedTower()) {
+                Tower.spawnedTower = true;
+                enableGrid();
+                spawnLightTower();
+            }
         });
 
         heavyTower.setOnMouseClicked(event -> {
-            enableGrid();
-            spawnHeavyTower();
+            if (!SpawnedTower()) {
+                Tower.spawnedTower = true;
+                enableGrid();
+                spawnHeavyTower();
+            }
         });
         normalTower.setViewOrder(-3);
         airTower.setViewOrder(-3);
@@ -91,6 +103,10 @@ public class TowerButton {
                 if (Grid.newGrid[i][j] == 1) Grid.grid[i][j].setVisible(false);
             }
         }
+    }
+
+    private boolean SpawnedTower() {
+        return Tower.spawnedTower;
     }
 
     private void spawnNormalTower() {

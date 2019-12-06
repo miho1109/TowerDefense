@@ -19,13 +19,17 @@ public class SellButton {
         sellButton.setLayoutY(300);
         sellButton.setPrefSize(120,60);
         sellButton.setStyle("-fx-border-width: 3;\n" + "-fx-border-color: black;\n" + "-fx-background-color: transparent;");
+        sellButton.setViewOrder(-3);
     }
 
     private void setMouse() {
         sellButton.setOnMouseClicked(event -> {
             //Tower.clearImage();
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
-                if (GameControl.TowerList.get(i).isSelected == true) GameControl.TowerList.get(i).clearTower();
+               if (GameControl.TowerList.get(i).isSelected == true) {
+                   GameControl.TowerList.get(i).clearTower();
+                   GameControl.TowerList.remove(i);
+               }
             }
         });
     }
