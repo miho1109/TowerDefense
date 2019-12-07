@@ -5,9 +5,13 @@ import GameField.Entities.Tower.Tower;
 import GameField.GameControl;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class UpgradeButton {
-    Button upgradeButton = new Button("Upgrade");
+    protected static ImageView UB = new ImageView(new Image("file:src/GameField/Entities/Button/Resources/Upgrade.png"));
+    Button upgradeButton = new Button("", UB);
 
     public UpgradeButton() {
         setLocation();
@@ -15,18 +19,19 @@ public class UpgradeButton {
         ViewManager.mainPane.getChildren().add(upgradeButton);
     }
 
-    public void setLocation() {
-        //upgradeButton.setVisible(false);
-        upgradeButton.setLayoutX(1382);
-        upgradeButton.setLayoutY(370);
-        upgradeButton.setPrefSize(120,60);
-        upgradeButton.setStyle("-fx-border-width: 3;\n" + "-fx-border-color: black;\n" + "-fx-background-color: transparent;");
+    private void setLocation() {
+        upgradeButton.setPrefSize(90, 90);
+        upgradeButton.setLayoutX(1345);
+        upgradeButton.setLayoutY(500);
+        upgradeButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         upgradeButton.setViewOrder(-3);
     }
 
     private void setMouse() {
+        upgradeButton.setOnMouseEntered(event -> upgradeButton.setEffect(new Glow()));
+        upgradeButton.setOnMouseExited(event -> upgradeButton.setEffect(null));
+
         upgradeButton.setOnMouseClicked(event -> {
-            //Tower.clearImage();
             for (int i = 0; i < GameControl.TowerList.size(); i++) {
                 if (GameControl.TowerList.get(i).isSelected == true) {
                     GameControl.TowerList.get(i).upgradeTower();
@@ -35,7 +40,4 @@ public class UpgradeButton {
         });
     }
 
-    public static void enableButton() {
-
-    }
 }

@@ -1,7 +1,5 @@
 package GameField.Entities;
 
-import javafx.scene.image.ImageView;
-
 public interface GameEntity {
 
      enum ObjectType{
@@ -15,11 +13,10 @@ public interface GameEntity {
          launcher,
          lightTower,
          heavyTower,
-         missle,
     }
 
     double getPosX();
     double getPosY();
-    double getWidth();
-    double getHeight();
+    double getW();
+    double getH();
 }

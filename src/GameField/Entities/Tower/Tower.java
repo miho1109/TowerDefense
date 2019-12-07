@@ -28,18 +28,22 @@ import static GameField.ViewManager.mainPane;
 public class Tower extends Pane implements GameEntity {
 
     private ImageView TowerImage;
+    private Circle towerRange;
+
     public ObjectType currentType;
+
     private int fireRate;
     private boolean dragAble = true;
     private boolean towerExist = false;
     public static boolean spawnedTower = false;
     private double shootRange = 0;
-    private Circle towerRange;
     private double angle = 0 ;
-    public boolean isSelected = false;
     private boolean placedTower = false;
     private static double damage;
     private static int cost;
+
+    public boolean isSelected = false;
+
 
     public ObjectType getTowerType(){ return currentType; }
 
@@ -52,10 +56,8 @@ public class Tower extends Pane implements GameEntity {
         dragTower();
         towerRange.setViewOrder(-1);
         this.getChildren().addAll(TowerImage, towerRange);
-
         ViewManager.mainPane.getChildren().add(towerRange);
         ViewManager.mainPane.getChildren().add(TowerImage);
-        //ViewManager.mainPane.getChildren().add(this);
         resetStats();
         chooseTower();
 
@@ -69,7 +71,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(0);
                 shootRange = 90;
                 fireRate = 250;
-                damage = 2;
+                damage = 1;
                 cost = 50;
                 break;
 
@@ -79,7 +81,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(0);
                 shootRange = 130;
                 fireRate = 500;
-                damage = 0.5;
+                damage = 0.4;
                 cost = 40;
                 break;
 
@@ -99,7 +101,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(140);
                 shootRange = 100;
                 fireRate = 300;
-                damage = 0.2;
+                damage = 0.17;
                 cost = 20;
                 break;
         }
@@ -116,7 +118,6 @@ public class Tower extends Pane implements GameEntity {
         Grid.newGrid[i][j] = 1;
         ViewManager.mainPane.getChildren().remove(TowerImage);
         ViewManager.mainPane.getChildren().remove(towerRange);
-        //ViewManager.mainPane.getChildren().remove(this);
         TowerImage = null;
         towerRange = null;
     }
@@ -179,7 +180,7 @@ public class Tower extends Pane implements GameEntity {
                 placedTower = true;
                 TowerButton.disableGrid();
                 Grid.newGrid[j / 90][i / 90] = 0;
-                collisionHandle(fireRate);
+                collisionHandle(getTowerType(), fireRate);
             }
         });
 
@@ -203,20 +204,26 @@ public class Tower extends Pane implements GameEntity {
         angle = nangle;
     }
 
-    private void collisionHandle(int fireRate){
+    private void collisionHandle(ObjectType type, int fireRate){
         Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
             if(towerExist && !GameControl.EnemyList.isEmpty()) {
                 for (int i=0; i<GameControl.EnemyList.size(); i++) {
                     if (towerRange != null && GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
+                        if (GameControl.EnemyList.get(i).getEnemyMovingMethod() == ObjectType.inAir && getTowerType()!=ObjectType.launcher){
+                            break;
+                        }else if(GameControl.EnemyList.get(i).getEnemyMovingMethod() != ObjectType.inAir && getTowerType()==ObjectType.launcher){
+
+                            break;
+                        }
                         rotateTower(GameControl.EnemyList.get(i));
                         new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX() + 45, getPosY() + 45,
-                                GameControl.EnemyList.get(i).getPosX()+GameControl.EnemyList.get(i).getW()/2,
-                                GameControl.EnemyList.get(i).getPosY()+GameControl.EnemyList.get(i).getH()/2);
+                            GameControl.EnemyList.get(i).getPosX() + GameControl.EnemyList.get(i).getW() / 2,
+                            GameControl.EnemyList.get(i).getPosY() + GameControl.EnemyList.get(i).getH() / 2);
                         break;
                     }
                 }
             }
-        }));
+    }));
         collide.setCycleCount(Animation.INDEFINITE);
         collide.play();
     }

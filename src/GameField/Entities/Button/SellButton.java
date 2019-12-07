@@ -5,9 +5,13 @@ import GameField.GameControl;
 import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class SellButton {
-    static Button sellButton = new Button("Sell");
+    protected static ImageView SB = new ImageView(new Image("file:src/GameField/Entities/Button/Resources/Sell.png"));
+    static Button sellButton = new Button("", SB);
 
     public SellButton() {
         setLocation();
@@ -15,16 +19,18 @@ public class SellButton {
         ViewManager.mainPane.getChildren().add(sellButton);
     }
 
-    public void setLocation() {
-        //sellButton.setVisible(false);
-        sellButton.setLayoutX(1382);
-        sellButton.setLayoutY(300);
-        sellButton.setPrefSize(120,60);
-        sellButton.setStyle("-fx-border-width: 3;\n" + "-fx-border-color: black;\n" + "-fx-background-color: transparent;");
+    private void setLocation() {
+        sellButton.setPrefSize(90, 90);
+        sellButton.setLayoutX(1430);
+        sellButton.setLayoutY(500);
+        sellButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         sellButton.setViewOrder(-3);
     }
 
     private void setMouse() {
+        sellButton.setOnMouseEntered(event -> sellButton.setEffect(new Glow()));
+        sellButton.setOnMouseExited(event -> sellButton.setEffect(null));
+
         sellButton.setOnMouseClicked(event -> {
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                if (GameControl.TowerList.get(i).isSelected == true) {

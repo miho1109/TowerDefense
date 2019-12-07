@@ -17,7 +17,7 @@ public class ViewManager extends VBox{
     private static final int WIDTH = 720;
     public static AnchorPane mainPane;
     private Scene mainScene;
-    private Stage mainStage;
+    private static Stage mainStage;
 
     public ViewManager(){
         mainPane = new AnchorPane();
@@ -37,7 +37,7 @@ public class ViewManager extends VBox{
     }
 
 
-    public Stage getMainStage(){
+    public static Stage getMainStage(){
         return mainStage;
     }
 
