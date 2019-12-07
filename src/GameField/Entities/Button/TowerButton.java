@@ -3,6 +3,7 @@ import GameField.Entities.GameEntity;
 import GameField.Entities.Tower.Tower;
 import GameField.GameControl;
 import GameField.Grid;
+import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -49,36 +50,41 @@ public class TowerButton {
         heavyTower.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
 
         normalTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower()) {
+            if (!SpawnedTower() && checkMoney()) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnNormalTower();
+                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
         airTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower()) {
+            if (!SpawnedTower() ) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnAirTower();
+                //PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
         lightTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower()) {
+            if (!SpawnedTower() && checkMoney()) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnLightTower();
+                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
         heavyTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower()) {
+            if (!SpawnedTower() ) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnHeavyTower();
+                //PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
+
         normalTower.setViewOrder(-3);
         airTower.setViewOrder(-3);
         lightTower.setViewOrder(-3);
@@ -127,5 +133,9 @@ public class TowerButton {
     private void spawnHeavyTower() {
         Tower temp = new Tower(GameEntity.ObjectType.heavyTower);
         GameControl.TowerList.add(temp);
+    }
+
+    private boolean checkMoney() {
+        return PlayerIndex.getCoin() >= Tower.getCost();
     }
 }

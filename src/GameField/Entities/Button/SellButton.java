@@ -2,6 +2,7 @@ package GameField.Entities.Button;
 
 import GameField.Entities.Tower.Tower;
 import GameField.GameControl;
+import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
 
@@ -28,6 +29,7 @@ public class SellButton {
             //Tower.clearImage();
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                if (GameControl.TowerList.get(i).isSelected == true) {
+                   PlayerIndex.setCoin(PlayerIndex.getCoin() + GameControl.TowerList.get(i).getCost());
                    GameControl.TowerList.get(i).clearTower();
                    GameControl.TowerList.remove(i);
                }

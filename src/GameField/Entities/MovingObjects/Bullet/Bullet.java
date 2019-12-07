@@ -2,6 +2,7 @@ package GameField.Entities.MovingObjects.Bullet;
 
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
+import GameField.Entities.Tower.Tower;
 import GameField.ViewManager;
 import javafx.animation.PathTransition;
 import javafx.scene.image.Image;
@@ -15,32 +16,28 @@ public class Bullet extends Pane implements GameEntity {
 
     private ImageView bulletImage;
     private int speed;
-    private double damage;
+    private static double damage;
 
     public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY){
             switch(towerType){
                 case lightTower: {
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
                     speed = 300;
-                    damage = 0.1;
                     break;
                 }
                 case heavyTower:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/heavyBullet.png");
                     speed = 350;
-                    damage = 0.2;
                     break;
                 }
                 case frozer:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/frozer.png");
                     speed = 300;
-                    damage = 2;
                     break;
                 }
                 case launcher:{
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
                     speed = 350;
-                    damage = 0.5;
                     break;
                 }
             }
@@ -71,7 +68,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOnFinished(actonEvent ->{
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
-            if(e != null) e.subtractHealth(e.getHealth()-damage);
+            if(e != null) e.subtractHealth(e.getHealth()- Tower.getDamage());
         });
         pathTransition.play();
     }

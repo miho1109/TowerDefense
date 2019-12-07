@@ -54,7 +54,7 @@ public class PlayerIndex {
         playerScore.setTranslateY(650);
         playerScore.setFill(Color.WHITE);
 
-        ViewManager.mainPane.getChildren().addAll(playerLives, playerMoney, gameLevel, playerScore);
+        ViewManager.mainPane.getChildren().addAll(playerLives, playerMoney, gameLevel);
     }
 
     public static void updatePlayerIndex() {
@@ -65,4 +65,5 @@ public class PlayerIndex {
         updateTimeLine.setAutoReverse(false);
         updateTimeLine.play();
     }
+
 }

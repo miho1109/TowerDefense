@@ -38,6 +38,8 @@ public class Tower extends Pane implements GameEntity {
     private double angle = 0 ;
     public boolean isSelected = false;
     private boolean placedTower = false;
+    private static double damage;
+    private static int cost;
 
     public ObjectType getTowerType(){ return currentType; }
 
@@ -54,8 +56,9 @@ public class Tower extends Pane implements GameEntity {
         ViewManager.mainPane.getChildren().add(towerRange);
         ViewManager.mainPane.getChildren().add(TowerImage);
         //ViewManager.mainPane.getChildren().add(this);
-        chooseTower();
         resetStats();
+        chooseTower();
+
     }
 
     private void loadTowerImage(ObjectType type) {
@@ -66,6 +69,8 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(0);
                 shootRange = 90;
                 fireRate = 250;
+                damage = 2;
+                cost = 50 ;
                 break;
 
             case launcher:
@@ -74,14 +79,18 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(0);
                 shootRange = 130;
                 fireRate = 500;
+                damage = 0.5;
+                cost = 40;
                 break;
 
             case lightTower:
                 loadImage("file:src/GameField/Entities/Tower/Resources/lightTower.png");
                 TowerImage.setX(1300);
                 TowerImage.setY(140);
-                shootRange = 170;
+                shootRange = 140;
                 fireRate = 200;
+                damage = 0.1;
+                cost = 10;
                 break;
 
             case heavyTower:
@@ -90,6 +99,8 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(140);
                 shootRange = 100;
                 fireRate = 300;
+                damage = 0.2;
+                cost = 20;
                 break;
         }
         TowerImage.setViewOrder(-2);
@@ -117,13 +128,12 @@ public class Tower extends Pane implements GameEntity {
     }
 
     private void chooseTower() {
+
         TowerImage.setOnMouseReleased(event -> {
-            for(int i = 0; i < GameControl.TowerList.size(); i++) {
-                GameControl.TowerList.get(i).isSelected = false;
-                //SellButton.disableButton();
-            }
+           for(int i = 0; i < GameControl.TowerList.size(); i++) {
+               GameControl.TowerList.get(i).isSelected = false;
+           }
             isSelected = true;
-            //SellButton.enableButton();
         });
 
         TowerImage.setOnMouseEntered(event -> {
@@ -212,7 +222,18 @@ public class Tower extends Pane implements GameEntity {
     }
 
     public void upgradeTower() {
-        shootRange += 50;
+        shootRange += 10;
+        towerRange.setRadius(shootRange);
+        damage *= 1.2;
+        cost += 15;
+    }
+
+    public static int getCost() {
+        return cost;
+    }
+
+    public static double getDamage() {
+        return damage;
     }
 
     public double getPosX() { return TowerImage.getX(); }

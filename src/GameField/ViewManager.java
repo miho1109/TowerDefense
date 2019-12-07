@@ -29,9 +29,6 @@ public class ViewManager extends VBox{
         createBackGround();
         GameControl.createGameButton();
         //GameControl.gameStart();
-//        mainPane.setOnMouseMoved(event -> {
-//           event.
-//        });
         //PlayerIndex.creatLables();
         //GameControl.printMousePosition();
         //GameControl.mouseClicked();
