@@ -70,7 +70,7 @@ public class Tower extends Pane implements GameEntity {
                 shootRange = 90;
                 fireRate = 250;
                 damage = 2;
-                cost = 50 ;
+                cost = 50;
                 break;
 
             case launcher:

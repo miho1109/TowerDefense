@@ -50,38 +50,38 @@ public class TowerButton {
         heavyTower.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
 
         normalTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower() && checkMoney()) {
-                Tower.spawnedTower = true;
-                enableGrid();
-                spawnNormalTower();
-                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+            if (!SpawnedTower() && (PlayerIndex.getCoin() >= 50)) {
+                    Tower.spawnedTower = true;
+                    enableGrid();
+                    spawnNormalTower();
+                    PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
         airTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower() ) {
+            if (!SpawnedTower() && (PlayerIndex.getCoin() >= 40)) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnAirTower();
-                //PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
-            }
-        });
-
-        lightTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower() && checkMoney()) {
-                Tower.spawnedTower = true;
-                enableGrid();
-                spawnLightTower();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
+        lightTower.setOnMouseClicked(event -> {
+            if (!SpawnedTower() && (PlayerIndex.getCoin() >= 10)) {
+                    Tower.spawnedTower = true;
+                    enableGrid();
+                    spawnLightTower();
+                    PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+            }
+        });
+
         heavyTower.setOnMouseClicked(event -> {
-            if (!SpawnedTower() ) {
+            if (!SpawnedTower() && (PlayerIndex.getCoin() >= 20)) {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnHeavyTower();
-                //PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
 
