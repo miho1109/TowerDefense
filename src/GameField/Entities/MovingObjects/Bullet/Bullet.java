@@ -66,9 +66,9 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{
+            if(e.getHealth() != 0) e.subtractHealth(e.getHealth()- Tower.getDamage());
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
-            if(e != null) e.subtractHealth(e.getHealth()- Tower.getDamage());
         });
         pathTransition.play();
     }

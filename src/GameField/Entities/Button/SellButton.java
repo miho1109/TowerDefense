@@ -26,7 +26,6 @@ public class SellButton {
 
     private void setMouse() {
         sellButton.setOnMouseClicked(event -> {
-            //Tower.clearImage();
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                if (GameControl.TowerList.get(i).isSelected == true) {
                    PlayerIndex.setCoin(PlayerIndex.getCoin() + GameControl.TowerList.get(i).getCost());
