@@ -25,10 +25,11 @@ public class Enemy extends Pane implements GameEntity {
 
     private ImageView EnemyImage;
     private ObjectType currentType;
-    private boolean survive = false;
+    private boolean stillAlive = true;
     private ProgressBar healthBar;
-    private double health;
+    private double armo;
     private int earn =0;
+    private ObjectType enemyMovingMethod;
 
     MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
@@ -41,9 +42,16 @@ public class Enemy extends Pane implements GameEntity {
     LineTo line8 = new LineTo(1320,180);
 
     public ObjectType getEnemyType(){ return currentType; }
+    public ObjectType getEnemyMovingMethod() { return enemyMovingMethod; }
     public boolean checkEnemyImage(){ return EnemyImage==null; }
-    public double getHealth(){ if(healthBar != null) {return healthBar.getProgress();}
-    return 0;}
+    public double getHealth(){
+        if(healthBar != null) {
+        return healthBar.getProgress();
+        }
+        return 0;
+    }
+    public double getArmo(){ return armo; }
+
     public void subtractHealth(double health){ healthBar.setProgress(health); }
 
     public Enemy(ObjectType type) {
@@ -54,24 +62,32 @@ public class Enemy extends Pane implements GameEntity {
                 generateHealthBar(ObjectType.normalTroop, 1);
                 setPath(20000, GameEntity.ObjectType.onGround);
                 earn = 2;
+                armo = 1;
+                enemyMovingMethod = ObjectType.onGround;
                 break;
             case eliteTroop:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/eliteTroop.png");
                 generateHealthBar(ObjectType.eliteTroop, 1);
                 setPath(15000, GameEntity.ObjectType.onGround);
                 earn = 4;
+                armo = 1.7;
+                enemyMovingMethod = ObjectType.onGround;
                 break;
             case tank:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/tanker.png");
                 generateHealthBar(ObjectType.tank, 1);
                 setPath(40000, GameEntity.ObjectType.onGround);
                 earn = 7;
+                armo = 4;
+                enemyMovingMethod = ObjectType.onGround;
                 break;
             case plane:
                 loadImage("file:src/GameField/Entities/MovingObjects/Enemy/Resources/plane1.png");
                 generateHealthBar(ObjectType.plane,1);
                 setPath(13000, ObjectType.inAir);
                 earn = 5;
+                armo = 1;
+                enemyMovingMethod = ObjectType.inAir;
                 break;
         }
         this.getChildren().addAll(EnemyImage);
@@ -82,7 +98,6 @@ public class Enemy extends Pane implements GameEntity {
 
 
     void generateHealthBar(ObjectType type, double health){
-        this.health = health;
         healthBar = new ProgressBar(health);
         healthBar.setPrefSize(35,9);
         healthBar.setStyle("-fx-accent: red;");
@@ -112,8 +127,7 @@ public class Enemy extends Pane implements GameEntity {
             pathTransition.setAutoReverse(false);
             pathTransition.setOnFinished(actonEvent -> {
                 terminated();
-                PlayerIndex.setLives(PlayerIndex.getLives() - 1);
-                PlayerIndex.updatePlayerIndex();
+                if(stillAlive) PlayerIndex.setLives(PlayerIndex.getLives() - 1);
                 });
             pathTransition.play();
     }
@@ -129,7 +143,7 @@ public class Enemy extends Pane implements GameEntity {
             if(healthBar != null && healthBar.getProgress() <= 0) {
                 terminated();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() + earn);
-                //PlayerIndex.updatePlayerIndex();
+                stillAlive = false;
             }
         }));timeline.stop();
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -137,7 +151,7 @@ public class Enemy extends Pane implements GameEntity {
     }
 
     public boolean checkTroopSurvive(){
-        return this.survive;
+        return this.stillAlive;
     }
 
     private void loadImage(String location){

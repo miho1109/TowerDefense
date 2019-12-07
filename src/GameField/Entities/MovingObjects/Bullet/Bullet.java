@@ -16,7 +16,6 @@ public class Bullet extends Pane implements GameEntity {
 
     private ImageView bulletImage;
     private int speed;
-    private static double damage;
 
     public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY){
             switch(towerType){
@@ -36,7 +35,7 @@ public class Bullet extends Pane implements GameEntity {
                     break;
                 }
                 case launcher:{
-                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle.png");
+                    loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/missle2.png");
                     speed = 350;
                     break;
                 }
@@ -66,7 +65,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{
-            if(e.getHealth() != 0) e.subtractHealth(e.getHealth()- Tower.getDamage());
+            if(e.getHealth() != 0) e.subtractHealth(e.getHealth()- Tower.getDamage()/e.getArmo());
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
         });

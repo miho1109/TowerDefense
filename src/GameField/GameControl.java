@@ -20,6 +20,7 @@ public class GameControl {
     private static int gameLevel;
     public static ArrayList<Enemy> EnemyList = new ArrayList<>();
     public static ArrayList<Tower> TowerList = new ArrayList<>();
+    private static int offTime ;
 
     public static int getGameLevel(){ return gameLevel; }
 
@@ -35,33 +36,40 @@ public class GameControl {
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
                 switch (lv){
                     case 1:{
+                        offTime = 15;
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         break;
                     }
                     case 2: {
+                        offTime = 15;
                       creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 10);
                         break;
                     }
                     case 3:{
+                        offTime = 15;
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 5);
                         break;
                     }
                     case 4: {
+                        offTime = 25;
                         creatTroopByNeed(GameEntity.ObjectType.tank, 3);
                         break;
                     }
                     case 5: {
+                        offTime = 25;
                         creatTroopByNeed(GameEntity.ObjectType.tank, 2);
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, 5);
                         break;
                     }
                     case 6: {
+                        offTime = 25;
                         creatTroopByNeed(GameEntity.ObjectType.plane, 5);
                         creatTroopByNeed(GameEntity.ObjectType.tank, 3);
                         break;
                     }
                     case 7:{
+                        offTime = 25;
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, 3);
                         creatTroopByNeed(GameEntity.ObjectType.eliteTroop, 3);
                         creatTroopByNeed(GameEntity.ObjectType.tank, 3);
@@ -70,9 +78,10 @@ public class GameControl {
                     }
                     default:
                     {
+                        offTime = 25;
                         creatTroopByNeed(GameEntity.ObjectType.normalTroop, quantities);
                         creatTroopByNeed(GameEntity.ObjectType.eliteTroop, quantities);
-                        creatTroopByNeed(GameEntity.ObjectType.tank, quantities);
+                        creatTroopByNeed(GameEntity.ObjectType.tank, quantities - 5);
                         creatTroopByNeed(GameEntity.ObjectType.plane, quantities);
                         break;
                     }
@@ -81,7 +90,7 @@ public class GameControl {
             timeline.setCycleCount(1);
             timeline.play();
             timeline.setOnFinished(event -> {
-               Timeline delayBFStart = new Timeline(new KeyFrame(Duration.seconds(20), event1 -> {
+               Timeline delayBFStart = new Timeline(new KeyFrame(Duration.seconds(offTime), event1 -> {
                }));
                delayBFStart.setCycleCount(1);
                delayBFStart.play();

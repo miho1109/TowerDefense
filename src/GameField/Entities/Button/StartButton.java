@@ -48,5 +48,8 @@ public class StartButton extends Pane {
             exit = null;
             ViewManager.mainPane.getChildren().remove(this);
         });
+        exit.setOnMouseClicked(event ->{
+            ViewManager.getMainStage().close();
+        });
     }
 }

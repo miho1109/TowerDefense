@@ -11,7 +11,7 @@ import javafx.util.Duration;
 public class PlayerIndex {
     public static boolean playing = true;
     private static int lives = 20;
-    private static int coin = 100;
+    private static int coin = 50;
     private static int score = 0;
     static Text playerLives, playerMoney, gameLevel, playerScore;
 
@@ -29,7 +29,7 @@ public class PlayerIndex {
     }
 
     public static void creatLables(){
-        gameLevel = new Text(":" + " " + Integer.toString(GameControl.getGameLevel()));
+        gameLevel = new Text("Lv:" + " " + Integer.toString(GameControl.getGameLevel()));
         playerLives = new Text(":" + " " + Integer.toString(getLives()));
         playerMoney = new Text(":" + " " + Integer.toString(getCoin()));
         playerScore = new Text("Score:" + " " + Integer.toString(getScore()));
@@ -60,6 +60,8 @@ public class PlayerIndex {
     public static void updatePlayerIndex() {
         Timeline updateTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             playerMoney.setText(Integer.toString(coin));
+            playerLives.setText(Integer.toString(lives));
+            gameLevel.setText(Integer.toString(GameControl.getGameLevel()));
         }));
         updateTimeLine.setCycleCount(Animation.INDEFINITE);
         updateTimeLine.setAutoReverse(false);
