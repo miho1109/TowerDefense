@@ -82,5 +82,8 @@ public class StartUpButtons extends Pane {
         exit.setOnMouseClicked(event ->{
             ViewManager.getMainStage().close();
         });
+        exit.setOnMouseClicked(event ->{
+            ViewManager.getMainStage().close();
+        });
     }
 }
