@@ -27,7 +27,8 @@ public class ViewManager extends VBox{
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
         createBackGround();
-        GameControl.gameStart();
+        GameControl.createGameButton();
+        //GameControl.gameStart();
 //        mainPane.setOnMouseMoved(event -> {
 //           event.
 //        });

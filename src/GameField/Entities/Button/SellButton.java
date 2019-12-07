@@ -6,7 +6,7 @@ import GameField.ViewManager;
 import javafx.scene.control.Button;
 
 public class SellButton {
-    Button sellButton = new Button("Sell");
+    static Button sellButton = new Button("Sell");
 
     public SellButton() {
         setLocation();
@@ -15,6 +15,7 @@ public class SellButton {
     }
 
     public void setLocation() {
+        //sellButton.setVisible(false);
         sellButton.setLayoutX(1382);
         sellButton.setLayoutY(300);
         sellButton.setPrefSize(120,60);
@@ -32,5 +33,13 @@ public class SellButton {
                }
             }
         });
+    }
+
+    public static void enableButton() {
+        sellButton.setVisible(true);
+    }
+
+    public static void disableButton() {
+        sellButton.setVisible(false);
     }
 }

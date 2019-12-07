@@ -1,6 +1,7 @@
 package GameField;
 
 import GameField.Entities.Button.SellButton;
+import GameField.Entities.Button.StartButton;
 import GameField.Entities.Button.TowerButton;
 import GameField.Entities.Button.UpgradeButton;
 import GameField.Entities.GameEntity;
@@ -152,6 +153,10 @@ public class GameControl {
         TowerButton TB = new TowerButton();
         SellButton SB = new SellButton();
         UpgradeButton UB = new UpgradeButton();
+    }
+
+    public static void createGameButton() {
+        StartButton SB = new StartButton();
     }
 
 }

@@ -1,5 +1,6 @@
 package GameField.Entities.Tower;
 
+import GameField.Entities.Button.SellButton;
 import GameField.Entities.Button.TowerButton;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Bullet.Bullet;
@@ -119,12 +120,20 @@ public class Tower extends Pane implements GameEntity {
         TowerImage.setOnMouseReleased(event -> {
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                 GameControl.TowerList.get(i).isSelected = false;
+                //SellButton.disableButton();
             }
             isSelected = true;
+            //SellButton.enableButton();
         });
 
-        TowerImage.setOnMouseEntered(event -> TowerImage.setEffect(new Glow()));
-        TowerImage.setOnMouseExited(event -> TowerImage.setEffect(null));
+        TowerImage.setOnMouseEntered(event -> {
+            TowerImage.setEffect(new Glow());
+            towerRange.setVisible(true);
+        });
+        TowerImage.setOnMouseExited(event -> {
+            TowerImage.setEffect(null);
+            towerRange.setVisible(false);
+        });
     }
 
     private void resetStats() {
@@ -200,6 +209,10 @@ public class Tower extends Pane implements GameEntity {
         }));
         collide.setCycleCount(Animation.INDEFINITE);
         collide.play();
+    }
+
+    public void upgradeTower() {
+        shootRange += 50;
     }
 
     public double getPosX() { return TowerImage.getX(); }
