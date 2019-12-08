@@ -36,16 +36,15 @@ public class GameControl {
     }
 
     public static void EnemyCleanUp(){
+        if(restTimeline != null) {
             restTimeline.stop();
+        }
+        if(spawnEnemyTimeline != null){
             spawnEnemyTimeline.stop();
-//            for(Enemy e: EnemyList){
-//                e.terminated();
-//            }
-//            EnemyList.clear();
+        }
     }
 
     public static void spawnTroop(int lives, int quantities, int lv){
-            if(PlayerIndex.getLives() == 0) spawnEnemyTimeline.stop();
             gameLevel = lv;
             spawnEnemyTimeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
                 switch (lv){

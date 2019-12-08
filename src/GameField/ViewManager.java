@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class ViewManager extends VBox{
 
     protected static final int HEIGHT = 1530;
@@ -13,7 +15,7 @@ public class ViewManager extends VBox{
     public static AnchorPane mainPane;
     private static Stage mainStage;
 
-    public ViewManager(){
+    public ViewManager() throws IOException {
         mainPane = new AnchorPane();
         Scene mainScene = new Scene(mainPane, HEIGHT, WIDTH);
         mainStage = new Stage();
@@ -40,7 +42,7 @@ public class ViewManager extends VBox{
         mainPane.setBackground(new Background(background));
     }
 
-    public void creatStartUpInterface(){
+    public void creatStartUpInterface() throws IOException {
         Image startBackgroundImage = new Image("file:src/GameField/resources/subBackground.png", HEIGHT, WIDTH, true, true);
         BackgroundImage startBackground = new BackgroundImage(startBackgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(startBackground));
