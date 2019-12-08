@@ -1,9 +1,6 @@
 package GameField;
 
-import GameField.Entities.Button.SellButton;
-import GameField.Entities.Button.StartButton;
-import GameField.Entities.Button.TowerButton;
-import GameField.Entities.Button.UpgradeButton;
+import GameField.Entities.Button.*;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.Entities.Tower.Tower;
@@ -29,6 +26,7 @@ public class GameControl {
         spawnTroop(5, 3, 1);
         createTowerButton();
         new PlayerIndex();
+        new TowerStats();
     }
 
     public static void spawnTroop(int lives, int quantities, int lv){
@@ -165,6 +163,7 @@ public class GameControl {
 
     public static void createGameButton() {
         StartButton SB = new StartButton();
+        //EndingButton EB = new EndingButton();
     }
 
 }

@@ -34,6 +34,7 @@ public class ViewManager extends VBox{
         //GameControl.mouseClicked();
         //GameControl.printTroopXY();
         //GameControl.createTestButton();
+        //GameControl.printScore();
     }
 
 

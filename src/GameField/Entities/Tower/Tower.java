@@ -1,13 +1,11 @@
 package GameField.Entities.Tower;
 
+import GameField.*;
 import GameField.Entities.Button.SellButton;
 import GameField.Entities.Button.TowerButton;
 import GameField.Entities.GameEntity;
 import GameField.Entities.MovingObjects.Bullet.Bullet;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
-import GameField.GameControl;
-import GameField.Grid;
-import GameField.ViewManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
@@ -20,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
@@ -35,15 +34,20 @@ public class Tower extends Pane implements GameEntity {
     private int fireRate;
     private boolean dragAble = true;
     private boolean towerExist = false;
-    public static boolean spawnedTower = false;
     private double shootRange = 0;
     private double angle = 0 ;
     private boolean placedTower = false;
     private static double damage;
     private static int cost;
+    private static int upgradeCost;
 
     public boolean isSelected = false;
-
+    public static boolean spawnedTower = false;
+    public static void setUpgradeCost(int upgradeCost){ Tower.upgradeCost = upgradeCost; }
+    public static void setCost(int cost){ Tower.cost = cost; }
+    public static int getUpgradeCost(){ return upgradeCost; }
+    public static int getCost() { return cost; }
+    public static double getDamage() { return damage; }
 
     public ObjectType getTowerType(){ return currentType; }
 
@@ -73,6 +77,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 250;
                 damage = 1;
                 cost = 50;
+                upgradeCost = 25;
                 break;
 
             case launcher:
@@ -83,6 +88,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 500;
                 damage = 0.4;
                 cost = 40;
+                upgradeCost = 20;
                 break;
 
             case lightTower:
@@ -93,6 +99,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 200;
                 damage = 0.1;
                 cost = 10;
+                upgradeCost = 5;
                 break;
 
             case heavyTower:
@@ -103,6 +110,7 @@ public class Tower extends Pane implements GameEntity {
                 fireRate = 300;
                 damage = 0.17;
                 cost = 20;
+                upgradeCost = 10;
                 break;
         }
         TowerImage.setViewOrder(-2);
@@ -135,15 +143,18 @@ public class Tower extends Pane implements GameEntity {
                GameControl.TowerList.get(i).isSelected = false;
            }
             isSelected = true;
+            TowerStats.updateTowerStats(this);
         });
 
         TowerImage.setOnMouseEntered(event -> {
             TowerImage.setEffect(new Glow());
             towerRange.setVisible(true);
+            TowerStats.enableTowerStats();
         });
         TowerImage.setOnMouseExited(event -> {
             TowerImage.setEffect(null);
             towerRange.setVisible(false);
+            TowerStats.disableTowerStats();
         });
     }
 
@@ -232,15 +243,7 @@ public class Tower extends Pane implements GameEntity {
         shootRange += 10;
         towerRange.setRadius(shootRange);
         damage *= 1.2;
-        cost += 15;
-    }
-
-    public static int getCost() {
-        return cost;
-    }
-
-    public static double getDamage() {
-        return damage;
+        cost += upgradeCost;
     }
 
     public double getPosX() { return TowerImage.getX(); }

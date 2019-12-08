@@ -3,6 +3,7 @@ package GameField.Entities.Button;
 import GameField.Entities.MovingObjects.Bullet.Bullet;
 import GameField.Entities.Tower.Tower;
 import GameField.GameControl;
+import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
@@ -22,7 +23,7 @@ public class UpgradeButton {
     private void setLocation() {
         upgradeButton.setPrefSize(90, 90);
         upgradeButton.setLayoutX(1345);
-        upgradeButton.setLayoutY(500);
+        upgradeButton.setLayoutY(480);
         upgradeButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         upgradeButton.setViewOrder(-3);
     }
@@ -33,8 +34,10 @@ public class UpgradeButton {
 
         upgradeButton.setOnMouseClicked(event -> {
             for (int i = 0; i < GameControl.TowerList.size(); i++) {
-                if (GameControl.TowerList.get(i).isSelected == true) {
+                if (GameControl.TowerList.get(i).isSelected == true && (PlayerIndex.getCoin() >= GameControl.TowerList.get(i).getUpgradeCost())) {
                     GameControl.TowerList.get(i).upgradeTower();
+                    PlayerIndex.setCoin(PlayerIndex.getCoin() - GameControl.TowerList.get(i).getUpgradeCost());
+                    GameControl.TowerList.get(i).setUpgradeCost((int) (GameControl.TowerList.get(i).getUpgradeCost() * 1.2));
                 }
             }
         });

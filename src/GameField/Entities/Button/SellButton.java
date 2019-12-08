@@ -22,7 +22,7 @@ public class SellButton {
     private void setLocation() {
         sellButton.setPrefSize(90, 90);
         sellButton.setLayoutX(1430);
-        sellButton.setLayoutY(500);
+        sellButton.setLayoutY(480);
         sellButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         sellButton.setViewOrder(-3);
     }
@@ -34,7 +34,7 @@ public class SellButton {
         sellButton.setOnMouseClicked(event -> {
             for(int i = 0; i < GameControl.TowerList.size(); i++) {
                if (GameControl.TowerList.get(i).isSelected == true) {
-                   PlayerIndex.setCoin(PlayerIndex.getCoin() + GameControl.TowerList.get(i).getCost());
+                   PlayerIndex.setCoin((PlayerIndex.getCoin() + (int) (GameControl.TowerList.get(i).getCost() * 0.7)));
                    GameControl.TowerList.get(i).clearTower();
                    GameControl.TowerList.remove(i);
                }
