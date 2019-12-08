@@ -1,5 +1,6 @@
 package GameField;
 
+import GameField.Entities.MovingObjects.Enemy.Enemy;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,8 +10,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class PlayerIndex {
-    public static boolean playing = true;
-    private static int lives = 20;
+    public static Timeline updatePlayerIndexTimeLine;
+    private static int lives = 5;
     private static int coin = 50;
     private static int score = 0;
     static Text playerLives, playerMoney, gameLevel, playerScore;
@@ -57,15 +58,28 @@ public class PlayerIndex {
         ViewManager.mainPane.getChildren().addAll(playerLives, playerMoney, gameLevel);
     }
 
-    public static void updatePlayerIndex() {
-        Timeline updateTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+    public void updatePlayerIndex() {
+        updatePlayerIndexTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             playerMoney.setText(Integer.toString(coin));
             playerLives.setText(Integer.toString(lives));
             gameLevel.setText(Integer.toString(GameControl.getGameLevel()));
+            if(lives == 0) {
+                GameControl.EnemyCleanUp();
+                for(Enemy e: GameControl.EnemyList){
+                    e.deleteEnemyWhenReplay();
+                }
+                ViewManager.mainPane.getChildren().clear();
+                ViewManager.creatEndInterface();
+                updatePlayerIndexTimeLine.stop();
+            }
         }));
-        updateTimeLine.setCycleCount(Animation.INDEFINITE);
-        updateTimeLine.setAutoReverse(false);
-        updateTimeLine.play();
+        updatePlayerIndexTimeLine.setCycleCount(Animation.INDEFINITE);
+        updatePlayerIndexTimeLine.setAutoReverse(false);
+        updatePlayerIndexTimeLine.play();
     }
 
+    public static void resetPlayerIndex(){
+        setCoin(50);
+        setLives(5);
+    }
 }

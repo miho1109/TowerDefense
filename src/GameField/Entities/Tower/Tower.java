@@ -7,6 +7,7 @@ import GameField.Entities.MovingObjects.Bullet.Bullet;
 import GameField.Entities.MovingObjects.Enemy.Enemy;
 import GameField.GameControl;
 import GameField.Grid;
+import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -40,8 +41,13 @@ public class Tower extends Pane implements GameEntity {
     private boolean placedTower = false;
     private static double damage;
     private static int cost;
+    private static Timeline collideTimeline;
 
     public ObjectType getTowerType(){ return currentType; }
+
+    public static void stopCollideTimeline(){
+        collideTimeline.stop();
+    }
 
     public Tower(ObjectType type) {
         loadTowerImage(type);
@@ -201,7 +207,7 @@ public class Tower extends Pane implements GameEntity {
     }
 
     private void collisionHandle(ObjectType type, int fireRate){
-        Timeline collide = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
+        collideTimeline = new Timeline(new KeyFrame(Duration.millis(fireRate), event -> {
             if(towerExist && !GameControl.EnemyList.isEmpty()) {
                 for (int i=0; i<GameControl.EnemyList.size(); i++) {
                     if (towerRange != null && GameControl.EnemyList.get(i).getBound().intersects(towerRange.getBoundsInParent()) && !GameControl.EnemyList.get(i).checkEnemyImage()){
@@ -220,8 +226,8 @@ public class Tower extends Pane implements GameEntity {
                     }
                 }
         }));
-        collide.setCycleCount(Animation.INDEFINITE);
-        collide.play();
+        collideTimeline.setCycleCount(Animation.INDEFINITE);
+        collideTimeline.play();
     }
 
     public void upgradeTower() {
@@ -245,8 +251,6 @@ public class Tower extends Pane implements GameEntity {
 
     public double getW() { return this.getWidth(); }
 
-    public double getH() {
-        return this.getHeight();
-    }
+    public double getH() { return this.getHeight(); }
 
 }

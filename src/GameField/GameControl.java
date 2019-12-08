@@ -1,7 +1,7 @@
 package GameField;
 
 import GameField.Entities.Button.SellButton;
-import GameField.Entities.Button.StartButton;
+import GameField.Entities.Button.StartUpButtons;
 import GameField.Entities.Button.TowerButton;
 import GameField.Entities.Button.UpgradeButton;
 import GameField.Entities.GameEntity;
@@ -10,6 +10,7 @@ import GameField.Entities.Tower.Tower;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.Animation;
+import javafx.print.PageLayout;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -21,19 +22,32 @@ public class GameControl {
     public static ArrayList<Enemy> EnemyList = new ArrayList<>();
     public static ArrayList<Tower> TowerList = new ArrayList<>();
     private static int offTime ;
+    private static Timeline spawnEnemyTimeline;
+    private static Timeline restTimeline;
 
     public static int getGameLevel(){ return gameLevel; }
 
     public static void gameStart(){
+        ViewManager.createInGameBackGround();
         drawGrid();
         spawnTroop(5, 3, 1);
         createTowerButton();
         new PlayerIndex();
     }
 
+    public static void EnemyCleanUp(){
+            restTimeline.stop();
+            spawnEnemyTimeline.stop();
+//            for(Enemy e: EnemyList){
+//                e.terminated();
+//            }
+//            EnemyList.clear();
+    }
+
     public static void spawnTroop(int lives, int quantities, int lv){
+            if(PlayerIndex.getLives() == 0) spawnEnemyTimeline.stop();
             gameLevel = lv;
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
+            spawnEnemyTimeline = new Timeline(new KeyFrame(Duration.millis(1200), event -> {
                 switch (lv){
                     case 1:{
                         offTime = 15;
@@ -87,14 +101,14 @@ public class GameControl {
                     }
                 }
             }));
-            timeline.setCycleCount(1);
-            timeline.play();
-            timeline.setOnFinished(event -> {
-               Timeline delayBFStart = new Timeline(new KeyFrame(Duration.seconds(offTime), event1 -> {
+            spawnEnemyTimeline.setCycleCount(1);
+            spawnEnemyTimeline.play();
+            spawnEnemyTimeline.setOnFinished(event -> {
+                restTimeline = new Timeline(new KeyFrame(Duration.seconds(offTime), event1 -> {
                }));
-               delayBFStart.setCycleCount(1);
-               delayBFStart.play();
-               delayBFStart.setOnFinished(event1 -> {
+                restTimeline.setCycleCount(1);
+                restTimeline.play();
+                restTimeline.setOnFinished(event1 -> {
                    spawnTroop(5, quantities + 1, gameLevel+ 1);
                });
             });
@@ -165,7 +179,7 @@ public class GameControl {
     }
 
     public static void createGameButton() {
-        StartButton SB = new StartButton();
+        StartUpButtons SB = new StartUpButtons();
     }
 
 }

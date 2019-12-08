@@ -5,12 +5,12 @@ import GameField.ViewManager;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public class StartButton extends Pane {
-    Button play = new Button("Play");
-    Button highscore = new Button("Highscore");
-    Button exit = new Button("Exit");
+public class StartUpButtons extends Pane {
+    Button play = new Button("Play !");
+    Button highscore = new Button("Highscore :)" );
+    Button exit = new Button("Exit :(");
 
-    public StartButton() {
+    public StartUpButtons() {
         this.getChildren().addAll(play, highscore, exit);
         designButton();
         setLocation();
@@ -47,6 +47,7 @@ public class StartButton extends Pane {
             highscore = null;
             exit = null;
             ViewManager.mainPane.getChildren().remove(this);
+
         });
         exit.setOnMouseClicked(event ->{
             ViewManager.getMainStage().close();

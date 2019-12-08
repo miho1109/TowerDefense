@@ -8,5 +8,4 @@ module TowerDefense {
     requires javafx.base;
     requires javafx.media;
     requires javafx.fxml;
-
 }
