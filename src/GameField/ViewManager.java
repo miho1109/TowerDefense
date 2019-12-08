@@ -1,40 +1,34 @@
 package GameField;
 
-import GameField.Entities.GameEntity;
-import GameField.Entities.MovingObjects.Bullet.Bullet;
-import GameField.Entities.Tower.Tower;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import GameField.Entities.Button.EndingButton;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class ViewManager extends VBox{
 
-    private static final int HEIGHT = 1530;
-    private static final int WIDTH = 720;
+    protected static final int HEIGHT = 1530;
+    protected static final int WIDTH = 720;
     public static AnchorPane mainPane;
-    private Scene mainScene;
     private static Stage mainStage;
 
-    public ViewManager(){
+    public ViewManager() throws IOException{
         mainPane = new AnchorPane();
-        mainScene = new Scene(mainPane,HEIGHT, WIDTH);
+        Scene mainScene = new Scene(mainPane, HEIGHT, WIDTH);
         mainStage = new Stage();
         mainStage.setTitle("TowerDefense");
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
-        createBackGround();
+        createStartUpInterface();
         GameControl.createGameButton();
         //GameControl.gameStart();
-        //PlayerIndex.creatLables();
         //GameControl.printMousePosition();
         //GameControl.mouseClicked();
         //GameControl.printTroopXY();
         //GameControl.createTestButton();
-        //GameControl.printScore();
     }
 
 
@@ -42,9 +36,22 @@ public class ViewManager extends VBox{
         return mainStage;
     }
 
-    private void createBackGround(){
+    public static void createInGameBackGround() {
         Image backgroundImage = new Image("file:src/GameField/resources/background3.png", HEIGHT, WIDTH, true, true);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         mainPane.setBackground(new Background(background));
+    }
+
+    public void createStartUpInterface() throws IOException{
+        Image startBackgroundImage = new Image("file:src/GameField/resources/subBackground.png", HEIGHT, WIDTH, true, true);
+        BackgroundImage startBackground = new BackgroundImage(startBackgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        mainPane.setBackground(new Background(startBackground));
+    }
+
+    public static void createEndInterface(){
+        Image endBackgroundImage = new Image("file:src/GameField/resources/subBackground.png", HEIGHT, WIDTH, true, true);
+        BackgroundImage endBackground = new BackgroundImage(endBackgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        mainPane.setBackground(new Background(endBackground));
+        new EndingButton();
     }
 }

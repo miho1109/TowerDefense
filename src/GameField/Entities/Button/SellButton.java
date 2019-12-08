@@ -22,7 +22,7 @@ public class SellButton {
     private void setLocation() {
         sellButton.setPrefSize(90, 90);
         sellButton.setLayoutX(1430);
-        sellButton.setLayoutY(480);
+        sellButton.setLayoutY(460);
         sellButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         sellButton.setViewOrder(-3);
     }

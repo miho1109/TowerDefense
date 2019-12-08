@@ -30,6 +30,8 @@ public class Enemy extends Pane implements GameEntity {
     private double armo;
     private int earn =0;
     private ObjectType enemyMovingMethod;
+    private static Timeline enemyCheckAliveTimelime;
+    public PathTransition EnemyPathTransition;
 
     MoveTo moveTo = new MoveTo(170,750);
     LineTo line1 = new LineTo(170, 550);
@@ -119,35 +121,48 @@ public class Enemy extends Pane implements GameEntity {
                 path.getElements().addAll(line3, line5, line8);
                 break;
         }
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(speed));
-        pathTransition.setNode(this);
-        pathTransition.setPath(path);
-        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransition.setAutoReverse(false);
-        pathTransition.setOnFinished(actonEvent -> {
+        EnemyPathTransition = new PathTransition();
+        EnemyPathTransition.setDuration(Duration.millis(speed));
+        EnemyPathTransition.setNode(this);
+        EnemyPathTransition.setPath(path);
+        EnemyPathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        EnemyPathTransition.setAutoReverse(false);
+        EnemyPathTransition.setOnFinished(actonEvent -> {
             terminated();
             if(stillAlive) PlayerIndex.setLives(PlayerIndex.getLives() - 1);
         });
-        pathTransition.play();
+        EnemyPathTransition.play();
     }
 
-    private void terminated(){
+    public void terminated(){
         ViewManager.mainPane.getChildren().remove(this);
         EnemyImage = null;
         healthBar = null;
     }
 
     private void terminator(){
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100),event ->{
+        enemyCheckAliveTimelime = new Timeline(new KeyFrame(Duration.millis(100),event ->{
             if(healthBar != null && healthBar.getProgress() <= 0) {
                 terminated();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() + earn);
                 stillAlive = false;
             }
-        }));timeline.stop();
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        }));
+        enemyCheckAliveTimelime.setCycleCount(Animation.INDEFINITE);
+        enemyCheckAliveTimelime.play();
+    }
+
+    public static void stopEnemyCheckAliveTimeline(){
+        enemyCheckAliveTimelime.stop();
+    }
+
+    public void deleteEnemyWhenReplay(){
+        EnemyPathTransition.stop();
+        stillAlive = false;
+        this.getChildren().removeAll(EnemyImage, healthBar);
+        ViewManager.mainPane.getChildren().remove(this);
+        EnemyImage = null;
+        healthBar = null;
     }
 
     public boolean checkTroopSurvive(){

@@ -1,18 +1,21 @@
 package GameField;
 
+import GameField.Entities.MovingObjects.Enemy.Enemy;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.io.IOException;
+
 public class PlayerIndex {
+    public static Timeline updatePlayerIndexTimeLine;
     private static Rectangle border = new Rectangle();
-    public static boolean playing = true;
-    private static int lives = 20;
+    private static int lives = 5;
     private static int coin = 50;
     static Text playerLives, playerMoney, gameLevel;
 
@@ -60,15 +63,33 @@ public class PlayerIndex {
         ViewManager.mainPane.getChildren().addAll(playerLives, playerMoney, gameLevel, border);
     }
 
-    public static void updatePlayerIndex() {
-        Timeline updateTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
-            playerMoney.setText(":" + Integer.toString(coin));
-            playerLives.setText(":" + Integer.toString(lives));
-            gameLevel.setText(":" + Integer.toString(GameControl.getGameLevel()));
+    public void updatePlayerIndex() {
+        updatePlayerIndexTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+            playerMoney.setText(Integer.toString(coin));
+            playerLives.setText(Integer.toString(lives));
+            gameLevel.setText(Integer.toString(GameControl.getGameLevel()));
+            if(lives <= 0) {
+                for(Enemy e: GameControl.EnemyList){
+                    e.EnemyPathTransition.stop();
+                    e.terminated();
+                }
+                GameControl.EnemyCleanUp();
+                ViewManager.mainPane.getChildren().clear();
+                ViewManager.createEndInterface();
+                try{
+                    HighScore.writeScore();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }));
-        updateTimeLine.setCycleCount(Animation.INDEFINITE);
-        updateTimeLine.setAutoReverse(false);
-        updateTimeLine.play();
+        updatePlayerIndexTimeLine.setCycleCount(Animation.INDEFINITE);
+        updatePlayerIndexTimeLine.setAutoReverse(false);
+        updatePlayerIndexTimeLine.play();
     }
 
+    public static void resetPlayerIndex(){
+        setCoin(50);
+        setLives(5);
+    }
 }

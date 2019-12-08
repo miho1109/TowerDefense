@@ -23,7 +23,7 @@ public class UpgradeButton {
     private void setLocation() {
         upgradeButton.setPrefSize(90, 90);
         upgradeButton.setLayoutX(1345);
-        upgradeButton.setLayoutY(480);
+        upgradeButton.setLayoutY(460);
         upgradeButton.setStyle("-fx-border-width: 0;\n" + "-fx-background-color: transparent;");
         upgradeButton.setViewOrder(-3);
     }

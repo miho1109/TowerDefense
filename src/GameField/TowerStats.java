@@ -23,9 +23,9 @@ public class TowerStats {
 
     public static void createLabels() {
 
-        towerCost = new Text(":" + " " + Integer.toString(0));
-        towerDamage = new Text(":" + " " + Integer.toString(0));
-        towerUpgradeCost = new Text(":" + " " + Integer.toString(0));
+        towerCost = new Text("$:" + " " + Integer.toString(0));
+        towerDamage = new Text("D:" + " " + Integer.toString(0));
+        towerUpgradeCost = new Text("$$:" + " " + Integer.toString(0));
 
         towerCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
         towerCost.setTranslateX(1410);
@@ -56,20 +56,11 @@ public class TowerStats {
 }
 
     public static void updateTowerStats(Tower tower) {
-        towerCost.setText(":" + Integer.toString(Tower.getCost()));
-        towerDamage.setText(":" + Integer.toString((int) (Tower.getDamage() * 100)));
-        towerUpgradeCost.setText(":" + Integer.toString(Tower.getUpgradeCost()));
+        towerCost.setText("$:" + Integer.toString(Tower.getCost()));
+        towerDamage.setText("D:" + Integer.toString((int) (Tower.getDamage() * 100)));
+        towerUpgradeCost.setText("$$:" + Integer.toString(Tower.getUpgradeCost()));
 
-        /*
-        for (int i = 0; i < GameControl.TowerList.size(); i++){
-                if (GameControl.TowerList.get(i).isSelected == true) {
-                    towerCost.setText(":" + Integer.toString(GameControl.TowerList.get(i).getCost()));
-                    towerDamage.setText(":" + Integer.toString((int) (GameControl.TowerList.get(i).getDamage() * 100)));
-                }
-            }
-
-
-
+        /*=
         Timeline updateTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             for (int i = 0; i < GameControl.TowerList.size(); i++){
                 if (GameControl.TowerList.get(i).isSelected == true) {
