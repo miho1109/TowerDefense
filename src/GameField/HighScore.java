@@ -61,6 +61,5 @@ public class HighScore extends VBox {
         test.write(String.valueOf(playerScore));
         test.newLine();
         test.close();
-        System.out.println("HighScore: " + playerScore);
     }
 }
