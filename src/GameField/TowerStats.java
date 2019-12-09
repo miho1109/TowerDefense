@@ -25,7 +25,7 @@ public class TowerStats {
 
         towerCost = new Text("$:" + " " + Integer.toString(0));
         towerDamage = new Text("D:" + " " + Integer.toString(0));
-        towerUpgradeCost = new Text("$$:" + " " + Integer.toString(0));
+        towerUpgradeCost = new Text("U:" + " " + Integer.toString(0));
 
         towerCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
         towerCost.setTranslateX(1410);
@@ -58,7 +58,7 @@ public class TowerStats {
     public static void updateTowerStats(Tower tower) {
         towerCost.setText("$:" + Integer.toString(Tower.getCost()));
         towerDamage.setText("D:" + Integer.toString((int) (Tower.getDamage() * 100)));
-        towerUpgradeCost.setText("$$:" + Integer.toString(Tower.getUpgradeCost()));
+        towerUpgradeCost.setText("U:" + Integer.toString(Tower.getUpgradeCost()));
 
         /*=
         Timeline updateTimeLine = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {

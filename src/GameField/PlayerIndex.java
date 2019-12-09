@@ -1,6 +1,7 @@
 package GameField;
 
 import GameField.Entities.MovingObjects.Enemy.Enemy;
+import GameField.Entities.Tower.Tower;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -72,6 +73,10 @@ public class PlayerIndex {
                 for(Enemy e: GameControl.EnemyList){
                     e.EnemyPathTransition.stop();
                     e.terminated();
+                }
+                for(Tower tow: GameControl.TowerList){
+                    Tower.stopCollideTimeline();
+                    tow.clearTower();
                 }
                 GameControl.EnemyCleanUp();
                 ViewManager.mainPane.getChildren().clear();
