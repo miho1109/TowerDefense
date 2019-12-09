@@ -14,11 +14,12 @@ import javafx.util.Duration;
 
 public class TowerStats {
     private static Rectangle border = new Rectangle();
-    static Text towerDamage, towerCost, towerUpgradeCost, description;
+    static Text towerDamage, towerCost, towerUpgradeCost;
 
     public TowerStats(){
         createLabels();
         //updateTowerStats();
+        disableTowerStats();
     }
 
     public static void createLabels() {

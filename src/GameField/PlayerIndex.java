@@ -16,6 +16,7 @@ import java.io.IOException;
 public class PlayerIndex {
     public static Timeline updatePlayerIndexTimeLine;
     private static Rectangle border = new Rectangle();
+    private static boolean dead = true;
     private static int lives = 5;
     private static int coin = 50;
     static Text playerLives, playerMoney, gameLevel;
@@ -32,7 +33,7 @@ public class PlayerIndex {
     }
 
     public static void creatLables(){
-        gameLevel = new Text("Lv:" + " " + Integer.toString(GameControl.getGameLevel()));
+        gameLevel = new Text(":" + " " + Integer.toString(GameControl.getGameLevel()));
         playerLives = new Text(":" + " " + Integer.toString(getLives()));
         playerMoney = new Text(":" + " " + Integer.toString(getCoin()));
 
@@ -60,6 +61,7 @@ public class PlayerIndex {
         border.setY(580);
         border.setStroke(Color.BLACK);
         border.setFill(Color.TRANSPARENT);
+        border.setVisible(true);
 
         ViewManager.mainPane.getChildren().addAll(playerLives, playerMoney, gameLevel, border);
     }
@@ -69,7 +71,8 @@ public class PlayerIndex {
             playerMoney.setText(Integer.toString(coin));
             playerLives.setText(Integer.toString(lives));
             gameLevel.setText(Integer.toString(GameControl.getGameLevel()));
-            if(lives <= 0) {
+            if(lives == 0) {
+                //dead = true;
                 for(Enemy e: GameControl.EnemyList){
                     e.EnemyPathTransition.stop();
                     e.terminated();
@@ -79,13 +82,18 @@ public class PlayerIndex {
                     tow.clearTower();
                 }
                 GameControl.EnemyCleanUp();
-                ViewManager.mainPane.getChildren().clear();
-                ViewManager.createEndInterface();
-                try{
-                    HighScore.writeScore();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(dead) {
+                    ViewManager.mainPane.getChildren().clear();
+                    ViewManager.createEndInterface();
+                    try {
+                        HighScore.writeScore();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    dead = false;
+                    resetPlayerIndex();
                 }
+
             }
         }));
         updatePlayerIndexTimeLine.setCycleCount(Animation.INDEFINITE);

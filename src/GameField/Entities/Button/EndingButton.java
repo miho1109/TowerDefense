@@ -40,15 +40,12 @@ public class EndingButton extends Pane {
     private void setLocation() {
         rePlay.setLayoutX(700);
         rePlay.setLayoutY(250);
-        rePlay.setViewOrder(-3);
 
         highscore.setLayoutX(700);
         highscore.setLayoutY(350);
-        highscore.setViewOrder(-3);
 
         exit.setLayoutX(700);
         exit.setLayoutY(450);
-        exit.setViewOrder(-3);
     }
 
     private void action() {

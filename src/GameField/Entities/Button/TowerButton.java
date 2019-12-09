@@ -6,14 +6,23 @@ import GameField.Grid;
 import GameField.PlayerIndex;
 import GameField.ViewManager;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import static GameField.ViewManager.mainPane;
 
 public class TowerButton {
 
+    static Text towerDamage, towerCost, towerUpgradeCost;
+    private static Rectangle border = new Rectangle();
+
     public TowerButton() {
+        designText();
 
         ImageView normalTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/frozer.png"));
         ImageView airTowerIV = new ImageView(new Image("file:src/GameField/Entities/Tower/Resources/airTower.png"));
@@ -57,6 +66,17 @@ public class TowerButton {
                     PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
+        normalTower.setOnMouseEntered(event -> {
+            normalTower.setEffect(new Glow());
+            towerCost.setText("$: " + Integer.toString(50));
+            towerDamage.setText("D: " + Integer.toString(100));
+            towerUpgradeCost.setText("U: " + Integer.toString(25));
+            enableTowerStats();
+        });
+        normalTower.setOnMouseExited(event -> {
+            normalTower.setEffect(null);
+            disableTowerStats();
+        });
 
         airTower.setOnMouseClicked(event -> {
             if (!SpawnedTower() && (PlayerIndex.getCoin() >= 40)) {
@@ -65,6 +85,17 @@ public class TowerButton {
                 spawnAirTower();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
+        });
+        airTower.setOnMouseEntered(event -> {
+            airTower.setEffect(new Glow());
+            towerCost.setText("$: " + Integer.toString(40));
+            towerDamage.setText("D: " + Integer.toString(40));
+            towerUpgradeCost.setText("U: " + Integer.toString(20));
+            enableTowerStats();
+        });
+        airTower.setOnMouseExited(event -> {
+            airTower.setEffect(null);
+            disableTowerStats();
         });
 
         lightTower.setOnMouseClicked(event -> {
@@ -75,6 +106,17 @@ public class TowerButton {
                     PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
         });
+        lightTower.setOnMouseEntered(event -> {
+            lightTower.setEffect(new Glow());
+            towerCost.setText("$: " + Integer.toString(10));
+            towerDamage.setText("D: " + Integer.toString(10));
+            towerUpgradeCost.setText("U: " + Integer.toString(5));
+            enableTowerStats();
+        });
+        lightTower.setOnMouseExited(event -> {
+            lightTower.setEffect(null);
+            disableTowerStats();
+        });
 
         heavyTower.setOnMouseClicked(event -> {
             if (!SpawnedTower() && (PlayerIndex.getCoin() >= 20)) {
@@ -83,6 +125,17 @@ public class TowerButton {
                 spawnHeavyTower();
                 PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
             }
+        });
+        heavyTower.setOnMouseEntered(event -> {
+            heavyTower.setEffect(new Glow());
+            towerCost.setText("$: " + Integer.toString(20));
+            towerDamage.setText("D: " + Integer.toString(22));
+            towerUpgradeCost.setText("U: " + Integer.toString(10));
+            enableTowerStats();
+        });
+        heavyTower.setOnMouseExited(event -> {
+            heavyTower.setEffect(null);
+            disableTowerStats();
         });
 
         normalTower.setViewOrder(-3);
@@ -135,7 +188,54 @@ public class TowerButton {
         GameControl.TowerList.add(temp);
     }
 
-    private boolean checkMoney() {
-        return PlayerIndex.getCoin() >= Tower.getCost();
+    private void designText() {
+        towerCost = new Text("$:" + " " + Integer.toString(50));
+        towerDamage = new Text("D:" + " " + Integer.toString(0));
+        towerUpgradeCost = new Text("U:" + " " + Integer.toString(0));
+
+        towerCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerCost.setTranslateX(1380);
+        towerCost.setTranslateY(325);
+        towerCost.setFill(Color.WHITE);
+        towerCost.setStroke(Color.BLACK);
+        towerCost.setVisible(false);
+
+        towerDamage.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerDamage.setTranslateX(1380);
+        towerDamage.setTranslateY(375);
+        towerDamage.setFill(Color.WHITE);
+        towerDamage.setStroke(Color.BLACK);
+        towerDamage.setVisible(false);
+
+        towerUpgradeCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerUpgradeCost.setTranslateX(1380);
+        towerUpgradeCost.setTranslateY(425);
+        towerUpgradeCost.setFill(Color.WHITE);
+        towerUpgradeCost.setStroke(Color.BLACK);
+        towerUpgradeCost.setVisible(false);
+
+        border.setWidth(163);
+        border.setHeight(165);
+        border.setX(1360);
+        border.setY(280);
+        border.setStroke(Color.BLACK);
+        border.setFill(Color.TRANSPARENT);
+        border.setVisible(false);
+
+        ViewManager.mainPane.getChildren().addAll(towerCost, towerDamage, towerUpgradeCost, border);
+    }
+
+    private static void enableTowerStats() {
+        towerCost.setVisible(true);
+        towerDamage.setVisible(true);
+        towerUpgradeCost.setVisible(true);
+        border.setVisible(true);
+    }
+
+    private static void disableTowerStats() {
+        towerCost.setVisible(false);
+        towerDamage.setVisible(false);
+        towerUpgradeCost.setVisible(false);
+        border.setVisible(false);
     }
 }

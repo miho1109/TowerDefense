@@ -20,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -55,9 +57,13 @@ public class Tower extends Pane implements GameEntity {
         collideTimeline.stop();
     }
 
+    static Text towerDamage, towerCost, towerUpgradeCost;
+    private static Rectangle border = new Rectangle();
+
     public ObjectType getTowerType(){ return currentType; }
 
     public Tower(ObjectType type) {
+        designText();
         loadTowerImage(type);
         towerRange = new Circle(2000, 50, shootRange);
         currentType = type;
@@ -68,7 +74,7 @@ public class Tower extends Pane implements GameEntity {
         this.getChildren().addAll(TowerImage, towerRange);
         ViewManager.mainPane.getChildren().add(towerRange);
         ViewManager.mainPane.getChildren().add(TowerImage);
-        resetStats();
+        //resetStats();
         chooseTower();
 
     }
@@ -114,7 +120,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(140);
                 shootRange = 100;
                 fireRate = 300;
-                damage = 0.17;
+                damage = 0.22;
                 cost = 20;
                 upgradeCost = 10;
                 break;
@@ -127,14 +133,16 @@ public class Tower extends Pane implements GameEntity {
     }
 
     public void clearTower() {
-        int i = (int) TowerImage.getY() / 90;
-        int j = (int) TowerImage.getX() / 90;
-        Grid.newGrid[i][j] = 1;
-        ViewManager.mainPane.getChildren().remove(TowerImage);
-        ViewManager.mainPane.getChildren().remove(towerRange);
-        ViewManager.mainPane.getChildren().remove(this);
-        TowerImage = null;
-        towerRange = null;
+        if (TowerImage != null) {
+            int i = (int) TowerImage.getY() / 90;
+            int j = (int) TowerImage.getX() / 90;
+            Grid.newGrid[i][j] = 1;
+            ViewManager.mainPane.getChildren().remove(TowerImage);
+            ViewManager.mainPane.getChildren().remove(towerRange);
+            ViewManager.mainPane.getChildren().remove(this);
+            TowerImage = null;
+            towerRange = null;
+        }
     }
 
     private boolean spawnAble(double x, double y) {
@@ -145,6 +153,26 @@ public class Tower extends Pane implements GameEntity {
 
     private void chooseTower() {
 
+        TowerImage.setOnMouseEntered(event -> {
+            TowerImage.setEffect(new Glow());
+            towerRange.setVisible(true);
+            towerCost.setText("$: " + cost);
+            towerDamage.setText("D: " + damage);
+            towerUpgradeCost.setText("U: " + upgradeCost);
+            ViewManager.mainPane.getChildren().addAll(towerCost, towerDamage, towerUpgradeCost, border);
+            TowerStats.enableTowerStats();
+
+        });
+        TowerImage.setOnMouseExited(event -> {
+            TowerImage.setEffect(null);
+            towerRange.setVisible(false);
+            towerCost.setText("$: " + 0);
+            towerDamage.setText("D: " + 0);
+            towerUpgradeCost.setText("U: " + 0);
+            TowerStats.disableTowerStats();
+            ViewManager.mainPane.getChildren().removeAll(towerCost, towerDamage, towerUpgradeCost, border);
+        });
+
         TowerImage.setOnMouseReleased(event -> {
            for(int i = 0; i < GameControl.TowerList.size(); i++) {
                GameControl.TowerList.get(i).isSelected = false;
@@ -153,16 +181,7 @@ public class Tower extends Pane implements GameEntity {
             TowerStats.updateTowerStats(this);
         });
 
-        TowerImage.setOnMouseEntered(event -> {
-            TowerImage.setEffect(new Glow());
-            towerRange.setVisible(true);
-            TowerStats.enableTowerStats();
-        });
-        TowerImage.setOnMouseExited(event -> {
-            TowerImage.setEffect(null);
-            towerRange.setVisible(false);
-            TowerStats.disableTowerStats();
-        });
+
     }
 
     private void resetStats() {
@@ -251,6 +270,58 @@ public class Tower extends Pane implements GameEntity {
         towerRange.setRadius(shootRange);
         damage *= 1.2;
         cost += upgradeCost;
+    }
+
+    private void designText() {
+        towerCost = new Text("");
+        towerDamage = new Text("");
+        towerUpgradeCost = new Text("");
+
+        towerCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerCost.setTranslateX(1380);
+        towerCost.setTranslateY(325);
+        towerCost.setFill(Color.WHITE);
+        towerCost.setStroke(Color.BLACK);
+        towerCost.setVisible(false);
+        towerCost.setViewOrder(1);
+
+        towerDamage.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerDamage.setTranslateX(1380);
+        towerDamage.setTranslateY(375);
+        towerDamage.setFill(Color.WHITE);
+        towerDamage.setStroke(Color.BLACK);
+        towerDamage.setVisible(false);
+        towerDamage.setViewOrder(1);
+
+        towerUpgradeCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
+        towerUpgradeCost.setTranslateX(1380);
+        towerUpgradeCost.setTranslateY(425);
+        towerUpgradeCost.setFill(Color.WHITE);
+        towerUpgradeCost.setStroke(Color.BLACK);
+        towerUpgradeCost.setVisible(false);
+        towerUpgradeCost.setViewOrder(1);
+
+        border.setWidth(163);
+        border.setHeight(165);
+        border.setX(1360);
+        border.setY(280);
+        border.setStroke(Color.BLACK);
+        border.setFill(Color.TRANSPARENT);
+        border.setVisible(false);
+    }
+
+    private static void enableTowerStats() {
+        towerCost.setVisible(true);
+        towerDamage.setVisible(true);
+        towerUpgradeCost.setVisible(true);
+        border.setVisible(true);
+    }
+
+    private static void disableTowerStats() {
+        towerCost.setVisible(false);
+        towerDamage.setVisible(false);
+        towerUpgradeCost.setVisible(false);
+        border.setVisible(false);
     }
 
     public double getPosX() { return TowerImage.getX(); }
