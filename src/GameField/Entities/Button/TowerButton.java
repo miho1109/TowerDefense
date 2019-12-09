@@ -63,7 +63,7 @@ public class TowerButton {
                     Tower.spawnedTower = true;
                     enableGrid();
                     spawnNormalTower();
-                    PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+                    PlayerIndex.setCoin(PlayerIndex.getCoin() - 50);
             }
         });
         normalTower.setOnMouseEntered(event -> {
@@ -83,7 +83,7 @@ public class TowerButton {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnAirTower();
-                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+                PlayerIndex.setCoin(PlayerIndex.getCoin() - 40);
             }
         });
         airTower.setOnMouseEntered(event -> {
@@ -103,7 +103,7 @@ public class TowerButton {
                     Tower.spawnedTower = true;
                     enableGrid();
                     spawnLightTower();
-                    PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+                    PlayerIndex.setCoin(PlayerIndex.getCoin() - 10);
             }
         });
         lightTower.setOnMouseEntered(event -> {
@@ -123,7 +123,7 @@ public class TowerButton {
                 Tower.spawnedTower = true;
                 enableGrid();
                 spawnHeavyTower();
-                PlayerIndex.setCoin(PlayerIndex.getCoin() - Tower.getCost());
+                PlayerIndex.setCoin(PlayerIndex.getCoin() - 20);
             }
         });
         heavyTower.setOnMouseEntered(event -> {

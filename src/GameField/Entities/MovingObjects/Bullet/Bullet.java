@@ -17,7 +17,7 @@ public class Bullet extends Pane implements GameEntity {
     private ImageView bulletImage;
     private int speed;
 
-    public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY){
+    public Bullet(Enemy e, ObjectType towerType, double spawnX, double spawnY, double targetX, double targetY, double damage){
             switch(towerType){
                 case lightTower: {
                     loadImage("file:src/GameField/Entities/MovingObjects/Bullet/Resources/lightBullet.png");
@@ -42,7 +42,7 @@ public class Bullet extends Pane implements GameEntity {
             }
             bulletImage.setViewOrder(2);
             this.getChildren().add(bulletImage);
-            setPath(e, speed, spawnX, spawnY, targetX, targetY);
+            setPath(e, speed, spawnX, spawnY, targetX, targetY, damage);
             ViewManager.mainPane.getChildren().add(this);
     }
 
@@ -53,7 +53,7 @@ public class Bullet extends Pane implements GameEntity {
         this.setTranslateY(750);
     }
 
-    private void setPath(Enemy e, int speed, double spawnX, double spawnY, double targetX, double targetY){
+    private void setPath(Enemy e, int speed, double spawnX, double spawnY, double targetX, double targetY, double damage){
         Line line = new Line();
         line.setStartX(spawnX);       line.setEndX(targetX);
         line.setStartY(spawnY);       line.setEndY(targetY);
@@ -65,7 +65,7 @@ public class Bullet extends Pane implements GameEntity {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(false);
         pathTransition.setOnFinished(actonEvent ->{
-            if(e.getHealth() != 0) e.subtractHealth(e.getHealth()- Tower.getDamage()/e.getArmo());
+            if(e.getHealth() != 0) e.subtractHealth(e.getHealth()- damage/e.getArmo());
             ViewManager.mainPane.getChildren().remove(this);
             bulletImage = null;
         });

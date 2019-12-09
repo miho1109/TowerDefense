@@ -92,6 +92,7 @@ public class PlayerIndex {
                     }
                     dead = false;
                     resetPlayerIndex();
+                    //GameControl.EnemyCleanUp();
                 }
 
             }

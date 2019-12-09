@@ -41,18 +41,18 @@ public class Tower extends Pane implements GameEntity {
     private double shootRange = 0;
     private double angle = 0 ;
     private boolean placedTower = false;
-    private static double damage;
-    private static int cost;
-    private static int upgradeCost;
+    private double damage;
+    private int cost;
+    private int upgradeCost;
     private static Timeline collideTimeline;
 
     public boolean isSelected = false;
     public static boolean spawnedTower = false;
-    public static void setUpgradeCost(int upgradeCost){ Tower.upgradeCost = upgradeCost; }
-    public static void setCost(int cost){ Tower.cost = cost; }
-    public static int getUpgradeCost(){ return upgradeCost; }
-    public static int getCost() { return cost; }
-    public static double getDamage() { return damage; }
+    public void setUpgradeCost(int upgradeCost){ this.upgradeCost = upgradeCost; }
+    public void setCost(int cost){ this.cost = cost; }
+    public int getUpgradeCost(){ return upgradeCost; }
+    public int getCost() { return cost; }
+    public double getDamage() { return damage; }
     public static void stopCollideTimeline(){
         collideTimeline.stop();
     }
@@ -157,10 +157,9 @@ public class Tower extends Pane implements GameEntity {
             TowerImage.setEffect(new Glow());
             towerRange.setVisible(true);
             towerCost.setText("$: " + cost);
-            towerDamage.setText("D: " + damage);
+            towerDamage.setText("D: " + (int) (damage * 100));
             towerUpgradeCost.setText("U: " + upgradeCost);
             ViewManager.mainPane.getChildren().addAll(towerCost, towerDamage, towerUpgradeCost, border);
-            TowerStats.enableTowerStats();
 
         });
         TowerImage.setOnMouseExited(event -> {
@@ -169,7 +168,6 @@ public class Tower extends Pane implements GameEntity {
             towerCost.setText("$: " + 0);
             towerDamage.setText("D: " + 0);
             towerUpgradeCost.setText("U: " + 0);
-            TowerStats.disableTowerStats();
             ViewManager.mainPane.getChildren().removeAll(towerCost, towerDamage, towerUpgradeCost, border);
         });
 
@@ -178,7 +176,6 @@ public class Tower extends Pane implements GameEntity {
                GameControl.TowerList.get(i).isSelected = false;
            }
             isSelected = true;
-            TowerStats.updateTowerStats(this);
         });
 
 
@@ -255,7 +252,7 @@ public class Tower extends Pane implements GameEntity {
                         rotateTower(GameControl.EnemyList.get(i));
                         new Bullet(GameControl.EnemyList.get(i), getTowerType(), getPosX() + 45, getPosY() + 45,
                             GameControl.EnemyList.get(i).getPosX() + GameControl.EnemyList.get(i).getW() / 2,
-                            GameControl.EnemyList.get(i).getPosY() + GameControl.EnemyList.get(i).getH() / 2);
+                            GameControl.EnemyList.get(i).getPosY() + GameControl.EnemyList.get(i).getH() / 2, getDamage());
                         break;
                     }
                 }
@@ -282,7 +279,7 @@ public class Tower extends Pane implements GameEntity {
         towerCost.setTranslateY(325);
         towerCost.setFill(Color.WHITE);
         towerCost.setStroke(Color.BLACK);
-        towerCost.setVisible(false);
+        towerCost.setVisible(true);
         towerCost.setViewOrder(1);
 
         towerDamage.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
@@ -290,7 +287,7 @@ public class Tower extends Pane implements GameEntity {
         towerDamage.setTranslateY(375);
         towerDamage.setFill(Color.WHITE);
         towerDamage.setStroke(Color.BLACK);
-        towerDamage.setVisible(false);
+        towerDamage.setVisible(true);
         towerDamage.setViewOrder(1);
 
         towerUpgradeCost.setFont(Font.loadFont("file:AssetsKit_2/Font/UTM Helve.ttf", 40));
@@ -298,7 +295,7 @@ public class Tower extends Pane implements GameEntity {
         towerUpgradeCost.setTranslateY(425);
         towerUpgradeCost.setFill(Color.WHITE);
         towerUpgradeCost.setStroke(Color.BLACK);
-        towerUpgradeCost.setVisible(false);
+        towerUpgradeCost.setVisible(true);
         towerUpgradeCost.setViewOrder(1);
 
         border.setWidth(163);
@@ -307,7 +304,7 @@ public class Tower extends Pane implements GameEntity {
         border.setY(280);
         border.setStroke(Color.BLACK);
         border.setFill(Color.TRANSPARENT);
-        border.setVisible(false);
+        border.setVisible(true);
     }
 
     private static void enableTowerStats() {

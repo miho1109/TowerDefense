@@ -30,7 +30,6 @@ public class GameControl {
         spawnTroop(5, 3, 1);
         createTowerButton();
         new PlayerIndex();
-        new TowerStats();
     }
 
     public static void EnemyCleanUp(){
