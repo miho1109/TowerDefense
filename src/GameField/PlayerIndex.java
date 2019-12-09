@@ -1,6 +1,7 @@
 package GameField;
 
 import GameField.Entities.MovingObjects.Enemy.Enemy;
+import GameField.Entities.Tower.Tower;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 public class PlayerIndex {
     public static Timeline updatePlayerIndexTimeLine;
+    private static boolean dead = true;
     private static int lives = 5;
     private static int coin = 50;
     static Text playerLives, playerMoney, gameLevel, playerScore;
@@ -60,13 +62,20 @@ public class PlayerIndex {
                     e.EnemyPathTransition.stop();
                     e.terminated();
                 }
+                for(Tower tower : GameControl.TowerList){
+                    tower.clearTower();
+                    Tower.stopCollideTimeline();
+                }
                 GameControl.EnemyCleanUp();
-                ViewManager.mainPane.getChildren().clear();
-                ViewManager.creatEndInterface();
-                try{
-                    HighScore.writeScore();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(dead) {
+                    ViewManager.mainPane.getChildren().clear();
+                    ViewManager.creatEndInterface();
+                    try {
+                        HighScore.writeScore();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    dead = false;
                 }
             }
         }));

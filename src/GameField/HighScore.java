@@ -49,7 +49,6 @@ public class HighScore extends VBox {
         }
 
         test.close();
-
         Collections.sort(scoreList, Collections.reverseOrder());
 
     }
