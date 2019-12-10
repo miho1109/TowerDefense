@@ -135,6 +135,9 @@ public class Enemy extends Pane implements GameEntity {
     }
 
     public void terminated(){
+        this.getChildren().removeAll(EnemyImage, healthBar);
+        EnemyPathTransition.stop();
+        EnemyPathTransition = null;
         ViewManager.mainPane.getChildren().remove(this);
         EnemyImage = null;
         healthBar = null;
@@ -150,23 +153,6 @@ public class Enemy extends Pane implements GameEntity {
         }));
         enemyCheckAliveTimelime.setCycleCount(Animation.INDEFINITE);
         enemyCheckAliveTimelime.play();
-    }
-
-    public static void stopEnemyCheckAliveTimeline(){
-        enemyCheckAliveTimelime.stop();
-    }
-
-    public void deleteEnemyWhenReplay(){
-        EnemyPathTransition.stop();
-        stillAlive = false;
-        this.getChildren().removeAll(EnemyImage, healthBar);
-        ViewManager.mainPane.getChildren().remove(this);
-        EnemyImage = null;
-        healthBar = null;
-    }
-
-    public boolean checkTroopSurvive(){
-        return this.stillAlive;
     }
 
     private void loadImage(String location){

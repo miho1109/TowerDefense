@@ -24,11 +24,7 @@ public class ViewManager extends VBox{
         mainStage.setResizable(false);
         createStartUpInterface();
         GameControl.createGameButton();
-        //GameControl.gameStart();
-        //GameControl.printMousePosition();
-        //GameControl.mouseClicked();
-        //GameControl.printTroopXY();
-        //GameControl.createTestButton();
+        new Sound();
     }
 
 

@@ -72,16 +72,16 @@ public class PlayerIndex {
             playerLives.setText(Integer.toString(lives));
             gameLevel.setText(Integer.toString(GameControl.getGameLevel()));
             if(lives == 0) {
-                //dead = true;
+                Sound.stopThemeSong();
+                dead = true;
+                GameControl.EnemyCleanUp();
                 for(Enemy e: GameControl.EnemyList){
-                    e.EnemyPathTransition.stop();
                     e.terminated();
                 }
                 for(Tower tow: GameControl.TowerList){
                     Tower.stopCollideTimeline();
                     tow.clearTower();
                 }
-                GameControl.EnemyCleanUp();
                 if(dead) {
                     ViewManager.mainPane.getChildren().clear();
                     ViewManager.createEndInterface();
@@ -92,9 +92,7 @@ public class PlayerIndex {
                     }
                     dead = false;
                     resetPlayerIndex();
-                    //GameControl.EnemyCleanUp();
                 }
-
             }
         }));
         updatePlayerIndexTimeLine.setCycleCount(Animation.INDEFINITE);

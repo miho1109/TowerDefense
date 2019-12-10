@@ -35,9 +35,11 @@ public class GameControl {
     public static void EnemyCleanUp(){
         if(restTimeline != null) {
             restTimeline.stop();
+            restTimeline = null;
         }
         if(spawnEnemyTimeline != null){
             spawnEnemyTimeline.stop();
+            spawnEnemyTimeline = null;
         }
     }
 

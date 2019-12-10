@@ -26,6 +26,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
+import java.time.OffsetTime;
+
 import static GameField.ViewManager.mainPane;
 
 public class Tower extends Pane implements GameEntity {
@@ -87,7 +89,7 @@ public class Tower extends Pane implements GameEntity {
                 TowerImage.setY(0);
                 shootRange = 90;
                 fireRate = 250;
-                damage = 1;
+                damage = 0.1;
                 cost = 50;
                 upgradeCost = 25;
                 break;
@@ -245,7 +247,6 @@ public class Tower extends Pane implements GameEntity {
                         if (GameControl.EnemyList.get(i).getEnemyMovingMethod() == ObjectType.inAir && getTowerType()!=ObjectType.launcher){
                             break;
                         }else if(GameControl.EnemyList.get(i).getEnemyMovingMethod() != ObjectType.inAir && getTowerType()==ObjectType.launcher){
-
                             break;
                         }
                         rotateTower(GameControl.EnemyList.get(i));
