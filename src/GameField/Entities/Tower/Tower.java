@@ -139,7 +139,6 @@ public class Tower extends Pane implements GameEntity {
             Grid.newGrid[i][j] = 1;
             ViewManager.mainPane.getChildren().remove(TowerImage);
             ViewManager.mainPane.getChildren().remove(towerRange);
-            ViewManager.mainPane.getChildren().remove(this);
             TowerImage = null;
             towerRange = null;
         }
